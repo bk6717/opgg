@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cos.opgg.repository.ApiRepository">
+
+<select id="findById" resultType = "com.cos.opgg.model.Post">
+	SELECT * FROM post WHERE id = #{id}
+</select>
+
+
+<insert id = "saveSummonerModel">
+	INSERT INTO summonerModel(summonerId, accountId, puuid, name, profileIconId, revisionDate, summonerLevel) VALUES(#{summonerId}, #{accountId}, #{puuid}, #{name}, #{profileIconId}, #{revisionDate}, #{summonerLevel})
+</insert>
+
+<insert id = "saveEntryModel">
+	INSERT INTO entrymodel(league, queueType, tier, rank, summonerId, summonerName, leaguePoints, wins, losses, tierRankId)
+	 VALUES(#{league}, #{queueType}, #{tier}, #{rank}, #{summonerId}, #summonerName}, #{leaguePoints}, #{wins}, #{losses}, #{tierRankId})
+</insert>
+<insert id = "saveMatchCommonModel">
+	INSERT INTO MatchCommonModel(gameId, platformId, gameCreation, gameDuration, mapId, seasonId, gameMode)
+	VALUES(#{gameId}, #{platformId}, #{gameCreation}, #{gameDuration}, #{mapId}, #{seasonId}, #{gameMode})
+</insert>
+
+<insert id = "saveMatchSummonerModel">
+	INSERT INTO MatchSummonerModel()
+	
+</insert>
+
+</mapper>
