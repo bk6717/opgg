@@ -11,6 +11,6 @@ public interface EntryRepository extends JpaRepository<EntryModel, Integer>{
 	
 	EntryModel save(EntryModel entryModel);
 	
-	@Query(value = "SELECT id, leagueId, leaguePoints, losses, queueType, rank, summonerId, summonerName, tier, tierRankId, wins   FROM entrymodel WHERE LOWER(replace(name,' ', '')) LIKE ?1", nativeQuery = true)
+	@Query(value = "SELECT id, leagueId, leaguePoints, losses, queueType, rank, summonerId, summonerName, tier, tierRankId, wins   FROM entrymodel WHERE LOWER(replace(summonerName,' ', '')) LIKE ?1", nativeQuery = true)
 	List<EntryModel> findBySummonerName(String summonerName);
 }

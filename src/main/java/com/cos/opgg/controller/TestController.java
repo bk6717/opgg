@@ -108,13 +108,47 @@ public class TestController {
 //		return "test";
 //	}
 	
-	@GetMapping("test/{name}")
-	public SummonerModel test(@PathVariable String name) {
+	@GetMapping("test/summoner/{name}")
+	public SummonerModel getsummoner(@PathVariable String name) {
 		
 		String tempName = name.replace(" ", "").toLowerCase();
 		
 		return summonerRepository.findByName(tempName);
 	}
+	
+	@GetMapping("test/entry/{name}")
+	public List<EntryModel> getEntry(@PathVariable String name) {
+		
+		String tempName = name.replace(" ", "").toLowerCase();
+		
+		return entryRepository.findBySummonerName(tempName);
+	}
+	
+	@GetMapping("test/rank")
+	public List<RankingModel> getRank() {
+		
+		return rankingRepository.findAll();
+	}
+	
+	@GetMapping("test/matchcommon/{gameId}")
+	public MatchCommonModel getMatchcommon(@PathVariable long gameId) {
+		
+		return matchCommonRepository.findByGameId(gameId);
+	}
+	
+	@GetMapping("test/matchteam/{gameId}")
+	public List<MatchTeamModel> getMatchTeam(@PathVariable long gameId) {
+		
+		return matchTeamRepository.findByGameId(gameId);
+	}
+	
+	@GetMapping("test/matchsummoner/{gameId}")
+	public List<MatchSummonerModel> getMatchSummoner(@PathVariable long gameId) {
+		
+		return matchSummonerRepository.findByGameId(gameId);
+	}
+	
+	
 
 	@GetMapping("/input/{name}")
 	public String inputentry(@PathVariable String name) {
