@@ -15,17 +15,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SummonerModel {
+public class MatchEntryModel {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String summonerId;
+	private int id;
+	
     private String accountId;
     private String puuid;
     private String name;
-    private long profileIconId;
-    private long revisionDate;
-    private long summonerLevel;
+
+	private String platformId;
+	private long gameId;
+	private long champion;
+	private long queue;
+	private long season;
+	private long timestamp;
+	private String role;
+	private String lane;
 
 }

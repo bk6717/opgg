@@ -9,8 +9,10 @@ import com.cos.opgg.api.model.EntryModel;
 
 public interface EntryRepository extends JpaRepository<EntryModel, Integer>{
 	
-	EntryModel save(EntryModel entryModel);
+//	EntryModel save(EntryModel entryModel);
 	
 	@Query(value = "SELECT id, leagueId, leaguePoints, losses, queueType, rank, summonerId, summonerName, tier, tierRankId, wins   FROM entrymodel WHERE LOWER(replace(summonerName,' ', '')) LIKE ?1", nativeQuery = true)
-	List<EntryModel> findBySummonerName(String summonerName);
+	List<EntryModel> findAllBySummonerName(String summonerName);
+	
+	List<EntryModel> findAllBySummonerId(String summonerId);
 }

@@ -7,7 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.cos.opgg.api.model.MatchTeamModel;
 
 public interface MatchTeamRepository extends JpaRepository<MatchTeamModel, Integer>{
-	MatchTeamModel save(MatchTeamModel matchTeamModel);
 	
-	List<MatchTeamModel> findByGameId(long gameId);
+//	MatchTeamModel save(MatchTeamModel matchTeamModel);
+	
+	List<MatchTeamModel> findAllByGameId(long gameId);
 }
