@@ -20,10 +20,10 @@ public class DetailDto {
 
     private MatchCommonModel matchCommonModel;
 
-    private List<MatchTeamModel> matchTeamModels;
+    private MatchTeamModel winTeam;
+    private MatchTeamModel loseTeam;
 
     private List<MatchSummonerModel> winSummonerModels;
-
     private List<MatchSummonerModel> loseSummonerModels;
 
 }

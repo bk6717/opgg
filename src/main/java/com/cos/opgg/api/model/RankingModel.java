@@ -23,7 +23,8 @@ public class RankingModel {
 	private String summonerId;
     private String summonerName;
     private String tier;
-    private String Rank;
+    private String rank;
+    
     private long leaguePoints;
     private long win;
     private long lose;

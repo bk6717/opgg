@@ -1,39 +1,36 @@
 package com.cos.opgg.test;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
-
-import com.cos.opgg.api.dto.InfoDto;
-import com.cos.opgg.dto.RespDto;
+import com.cos.opgg.api.apimodel.attr.rank.Entry;
+import com.cos.opgg.util.AscRank;
 
 public class Test {
 
 //	public static void main(String[] args) {
+//
+//		List<Entry> list = new ArrayList<Entry>();
 //		
-////		System.out.println(HttpStatus.OK.value());
+//		list.add(Entry.builder().leaguePoints(446).build());
+//		list.add(Entry.builder().leaguePoints(456).build());
+//		list.add(Entry.builder().leaguePoints(123).build());
+//		list.add(Entry.builder().leaguePoints(3).build());
+//		list.add(Entry.builder().leaguePoints(77777).build());
+//		list.add(Entry.builder().leaguePoints(1).build());
+//		list.add(Entry.builder().leaguePoints(3344).build());
+//		list.add(Entry.builder().leaguePoints(5).build());
+//		list.add(Entry.builder().leaguePoints(22).build());
+//		list.add(Entry.builder().leaguePoints(2266).build());
+//		list.add(Entry.builder().leaguePoints(22).build());
+//
 //		
-//		List<InfoDto> infoDtos = new ArrayList<>();
+//		Collections.sort(list, new AscRank());
 //		
-//		infoDtos.add(InfoDto.builder().build());
-//		infoDtos.add(InfoDto.builder().build());
-//		infoDtos.add(InfoDto.builder().build());
-//		infoDtos.add(InfoDto.builder().build());
+//		System.out.println(list);
 //		
-//		RespDto respDto = RespDto.builder()
-//				.statusCode(HttpStatus.OK.value())
-//				.message("")
-//				.Data(infoDtos)
-//				.build();
-//		
-//		System.out.println(respDto);
 //		
 //	}
-//	
+	
 }

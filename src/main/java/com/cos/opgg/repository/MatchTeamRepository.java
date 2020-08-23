@@ -11,4 +11,6 @@ public interface MatchTeamRepository extends JpaRepository<MatchTeamModel, Integ
 //	MatchTeamModel save(MatchTeamModel matchTeamModel);
 	
 	List<MatchTeamModel> findAllByGameId(long gameId);
+	
+	void deleteAllByGameId(long gameId);
 }

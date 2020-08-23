@@ -1,5 +1,6 @@
 package com.cos.opgg.api.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,8 +21,10 @@ public class MatchCommonModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-
+	
+	@Column(unique = true)
     private long gameId;
+	
     private String platformId;
     private long gameCreation;
     private long gameDuration;

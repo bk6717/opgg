@@ -26,6 +26,7 @@ public class MatchSummonerModel {
     private long gameDuration;
 
     private String summonerName;
+    private String accountId;
     private long participantId;
     private long teamId;
     private long championId;

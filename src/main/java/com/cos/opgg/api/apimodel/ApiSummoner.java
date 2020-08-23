@@ -24,3 +24,4 @@ public class ApiSummoner {
     private long summonerLevel;
 
 }
+
