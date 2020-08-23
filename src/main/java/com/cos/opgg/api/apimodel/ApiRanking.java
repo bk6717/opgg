@@ -20,6 +20,6 @@ public class ApiRanking {
     public String leagueId;
     public String queue;
     public String name;
-    public List<Entry> entries = null;
+    public List<Entry> entries;
 
 }

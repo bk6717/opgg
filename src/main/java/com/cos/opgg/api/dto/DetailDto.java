@@ -17,6 +17,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class DetailDto {
+	
+    private int type;
+	private int statusCode;
+	private String message;
 
     private MatchCommonModel matchCommonModel;
 

@@ -15,7 +15,9 @@ import lombok.NoArgsConstructor;
 public class RankingDto {
 
     private int type;
-    
+	private int statusCode;
+	private String message;
+	
     private long allUser;
 
     private SummonerModel summonerModel;

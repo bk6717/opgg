@@ -44,7 +44,6 @@ public class TestController {
 
 		return apiService.getInfo(name);
 	}
-
 	
 	
 	@GetMapping("test/input/123123123/{name}")
