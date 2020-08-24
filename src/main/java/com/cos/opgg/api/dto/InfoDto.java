@@ -18,6 +18,8 @@ import lombok.NoArgsConstructor;
 public class InfoDto {
 
     private int type;
+    
+    private long radder;
 
     private SummonerModel summonerModel;
 

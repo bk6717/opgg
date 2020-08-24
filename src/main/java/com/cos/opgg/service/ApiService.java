@@ -402,8 +402,18 @@ public class ApiService {
 
 		// 경기 유저 내용 dto에 담기
 		for (MatchSummonerModel matchSummonerEntity : matchSummonerModels) {
-
-			InfoDto infoDto = InfoDto.builder().type(1).matchSummonerModel(matchSummonerEntity).build();
+			
+			String tempName1 = matchSummonerEntity.getSummonerName().replace(" ", "").toLowerCase();
+			
+			RankingModel rankingEntity = rankingRepository.findBySummonerName(tempName1);
+			
+			InfoDto infoDto = null;
+			
+			if(rankingEntity == null) {
+				infoDto = InfoDto.builder().type(1).matchSummonerModel(matchSummonerEntity).build();
+			}else {
+				infoDto = InfoDto.builder().type(1).radder(rankingEntity.getId()).matchSummonerModel(matchSummonerEntity).build();
+			}
 
 			infoDtos.add(infoDto);
 
