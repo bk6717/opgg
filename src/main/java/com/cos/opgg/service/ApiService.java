@@ -40,7 +40,6 @@ import com.cos.opgg.api.model.RankingModel;
 import com.cos.opgg.api.model.SummonerModel;
 import com.cos.opgg.dto.GetApiMatchEntryDto;
 import com.cos.opgg.dto.RespDto;
-import com.cos.opgg.dto.RespListDto;
 import com.cos.opgg.repository.EntryRepository;
 import com.cos.opgg.repository.MatchCommonRepository;
 import com.cos.opgg.repository.MatchEntryRepository;
@@ -85,7 +84,7 @@ public class ApiService {
 		return apiUtil;
 	}
 	
-	public synchronized RespListDto<?> getRank(String name) {
+	public synchronized RespDto<?> getRank(String name) {
 		
 		List<RankingDto> rankingDtos = new ArrayList<>();
 
@@ -96,7 +95,7 @@ public class ApiService {
 		RankingModel rankingEntity0 = rankingRepository.findBySummonerName(tempName0);
 		
 		if(rankingEntity0 == null) {
-			return new RespListDto<RankingDto>(HttpStatus.BAD_REQUEST.value(), "해당 유저 정보가 없습니다.", null);
+			return new RespDto<RankingDto>(HttpStatus.BAD_REQUEST.value(), "해당 유저 정보가 없습니다.", null);
 		}
 		
 		long pageStart = rankingEntity0.getId();
@@ -112,7 +111,7 @@ public class ApiService {
 		List<RankingModel> rankingEntities = rankingRepository.find10ByPage(pageStart);
 		
 		if(rankingEntities == null || rankingEntities.size() == 0) {
-			return new RespListDto<RankingDto>(HttpStatus.BAD_REQUEST.value(), "해당 페이지의 데이터가 없습니다.", null);
+			return new RespDto<RankingDto>(HttpStatus.BAD_REQUEST.value(), "해당 페이지의 데이터가 없습니다.", null);
 		}
 		
 		for (RankingModel rankingEntity : rankingEntities) {
@@ -131,7 +130,7 @@ public class ApiService {
 				}
 				
 				if(apiSummoner == null) {
-					return new RespListDto<RankingDto>(HttpStatus.BAD_REQUEST.value(), "데이터를 가져오는 동안 오류가 발생했습니다.", null);
+					return new RespDto<RankingDto>(HttpStatus.BAD_REQUEST.value(), "데이터를 가져오는 동안 오류가 발생했습니다.", null);
 				}
 				
 				summonerEntity = summonerRepository.findByName(tempName);
@@ -149,17 +148,17 @@ public class ApiService {
 			
 		}
 		
-		return new RespListDto<RankingDto>(HttpStatus.OK.value(), "정상", rankingDtos);
+		return new RespDto<List<RankingDto>>(HttpStatus.OK.value(), "정상", rankingDtos);
 	}
 	
-	public synchronized RespListDto<?> getRank(long page) {
+	public synchronized RespDto<?> getRank(long page) {
 		
 		List<RankingDto> rankingDtos = new ArrayList<>();
 
 		long pageStart;
 		
 		if(page < 1) {
-			return new RespListDto<RankingDto>(HttpStatus.BAD_REQUEST.value(), "잘못된 page를 입력하셨습니다.", null);
+			return new RespDto<RankingDto>(HttpStatus.BAD_REQUEST.value(), "잘못된 page를 입력하셨습니다.", null);
 		} else if (page == 1) {
 			pageStart = page;
 		} else {
@@ -178,7 +177,7 @@ public class ApiService {
 		List<RankingModel> rankingEntities = rankingRepository.find10ByPage(pageStart);
 		
 		if(rankingEntities == null || rankingEntities.size() == 0) {
-			return new RespListDto<RankingDto>(HttpStatus.BAD_REQUEST.value(), "해당 페이지의 데이터가 없습니다.", null);
+			return new RespDto<RankingDto>(HttpStatus.BAD_REQUEST.value(), "해당 페이지의 데이터가 없습니다.", null);
 		}
 		
 		for (RankingModel rankingEntity : rankingEntities) {
@@ -197,7 +196,7 @@ public class ApiService {
 				}
 				
 				if(apiSummoner == null) {
-					return new RespListDto<RankingDto>(HttpStatus.BAD_REQUEST.value(), "데이터를 가져오는 동안 오류가 발생했습니다.", null);
+					return new RespDto<RankingDto>(HttpStatus.BAD_REQUEST.value(), "데이터를 가져오는 동안 오류가 발생했습니다.", null);
 				}
 				
 				summonerEntity = summonerRepository.findByName(tempName);
@@ -216,7 +215,7 @@ public class ApiService {
 			
 		}
 		
-		return new RespListDto<RankingDto>(HttpStatus.OK.value(), "정상", rankingDtos);
+		return new RespDto<List<RankingDto>>(HttpStatus.OK.value(), "정상", rankingDtos);
 	}
 	
 	
@@ -270,7 +269,7 @@ public class ApiService {
 		return new RespDto<DetailDto>(HttpStatus.OK.value(), "정상", detailDto);
 	}
 	
-	public synchronized RespListDto<?> getInfo(String name) {
+	public synchronized RespDto<?> getInfo(String name) {
 
 		List<InfoDto> infoDtos = new ArrayList<>();
 
@@ -295,7 +294,7 @@ public class ApiService {
 
 			// api서버에도 소환사 아이디가 없다면 리턴
 			if (apiSummoner == null) {
-				return new RespListDto<InfoDto>(HttpStatus.BAD_REQUEST.value(), "소환사 아이디가 없습니다.", null);
+				return new RespDto<List<InfoDto>>(HttpStatus.BAD_REQUEST.value(), "소환사 아이디가 없습니다.", null);
 			}
 
 			summonerEntity = summonerRepository.findByName(tempName);
@@ -323,7 +322,7 @@ public class ApiService {
 
 				infoDtos.add(infoDtoHeader);
 
-				return new RespListDto<InfoDto>(HttpStatus.OK.value(), "소환사 엔트리 정보가 없습니다.", infoDtos);
+				return new RespDto<List<InfoDto>>(HttpStatus.OK.value(), "소환사 엔트리 정보가 없습니다.", infoDtos);
 			}
 			entryEntities = entryRepository.findAllBySummonerName(tempName);
 			
@@ -373,7 +372,7 @@ public class ApiService {
 			}
 
 			if (apiMatchEntry == null) {
-				return new RespListDto<InfoDto>(HttpStatus.OK.value(), "경기 엔트리 정보가 없습니다", infoDtos);
+				return new RespDto<List<InfoDto>>(HttpStatus.OK.value(), "경기 엔트리 정보가 없습니다", infoDtos);
 			}
 
 			int countMatch = 0;
@@ -404,7 +403,7 @@ public class ApiService {
 				}
 
 				if (apiMatch == null) {
-					return new RespListDto<InfoDto>(HttpStatus.OK.value(), "경기 내용을 가져오지 못했습니다.", infoDtos);
+					return new RespDto<List<InfoDto>>(HttpStatus.OK.value(), "경기 내용을 가져오지 못했습니다.", infoDtos);
 				}
 
 			}
@@ -424,7 +423,7 @@ public class ApiService {
 
 		}
 
-		return new RespListDto<InfoDto>(HttpStatus.OK.value(), "정상", infoDtos);
+		return new RespDto<List<InfoDto>>(HttpStatus.OK.value(), "정상", infoDtos);
 	}
 	
 	
