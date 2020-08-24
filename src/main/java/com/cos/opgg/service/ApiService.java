@@ -316,9 +316,13 @@ public class ApiService {
 			
 			// api서버에도 아이디 없다면
 			if (apiEntries == null) {
+				
+				List<EntryModel> entryModels = new ArrayList<>();
+				entryModels.add(EntryModel.builder().build());
+				entryModels.add(EntryModel.builder().build());
 
 				// 헤더에 소환사정보만 담아넣기
-				InfoDto infoDtoHeader = InfoDto.builder().type(0).summonerModel(summonerEntity).build();
+				InfoDto infoDtoHeader = InfoDto.builder().type(0).summonerModel(summonerEntity).entryModels(entryModels).build();
 
 				infoDtos.add(infoDtoHeader);
 
@@ -326,11 +330,20 @@ public class ApiService {
 			}
 			entryEntities = entryRepository.findAllBySummonerName(tempName);
 			
-
 		}
 		
 		if(entryEntities.size() < 2) {
 			entryEntities.add(EntryModel.builder().build());
+		}
+		
+		List<EntryModel> entryModels = new ArrayList<>();
+		
+		if(entryEntities.get(0).getQueueType().equals("RANKED_SOLO_5x5")) {
+			entryModels.add(entryEntities.get(0));
+			entryModels.add(entryEntities.get(1));
+		} else {
+			entryModels.add(entryEntities.get(1));
+			entryModels.add(entryEntities.get(0));
 		}
 
 		// 랭킹가져오기
@@ -340,15 +353,12 @@ public class ApiService {
 		InfoDto infoDtoHeader = null;
 		
 		if (rankingEntity == null) {
-			infoDtoHeader = InfoDto.builder().type(0).summonerModel(summonerEntity).entryModels(entryEntities)
+			infoDtoHeader = InfoDto.builder().type(0).summonerModel(summonerEntity).entryModels(entryModels)
 					.build();
 		} else {
-			infoDtoHeader = InfoDto.builder().type(0).radder(rankingEntity.getId()).summonerModel(summonerEntity).entryModels(entryEntities)
+			infoDtoHeader = InfoDto.builder().type(0).radder(rankingEntity.getId()).summonerModel(summonerEntity).entryModels(entryModels)
 					.build();
 		}
-		
-		
-
 
 		infoDtos.add(infoDtoHeader);
 
