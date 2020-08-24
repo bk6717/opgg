@@ -14,7 +14,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.cos.opgg.api.apimodel.ApiEntry;
 import com.cos.opgg.api.apimodel.ApiMatch;
@@ -301,7 +300,7 @@ public class ApiService {
 		}
 
 		// 소환사 엔트리 가져오기
-		List<EntryModel> entryEntities = entryRepository.findAllBySummonerName(tempName);
+		List<EntryModel> entryEntities = entryRepository.findAllBySummonerId(summonerEntity.getSummonerId());
 
 		// db에 소환사 아이디가 없으면 api로 가져오기
 		if (entryEntities == null || entryEntities.size() == 0) {
@@ -328,7 +327,7 @@ public class ApiService {
 
 				return new RespDto<List<InfoDto>>(HttpStatus.OK.value(), "소환사 엔트리 정보가 없습니다.", infoDtos);
 			}
-			entryEntities = entryRepository.findAllBySummonerName(tempName);
+			entryEntities = entryRepository.findAllBySummonerId(summonerEntity.getSummonerId());
 			
 		}
 		
@@ -361,10 +360,12 @@ public class ApiService {
 		}
 
 		infoDtos.add(infoDtoHeader);
-
+		
 		// 소환사의 경기 가져오기
 		List<MatchSummonerModel> matchSummonerModels = matchSummonerRepository
-				.findAllBySummonerNameByOrderByGameCreationDesc(tempName);
+				.findAllByAccountIdOrderByGameCreationDesc(summonerEntity.getAccountId());
+		
+		System.out.println("matchSummonerModels size " +matchSummonerModels.size());
 
 		// 경기내용이 없을 경우
 		if (matchSummonerModels == null || matchSummonerModels.size() == 0) {
@@ -418,7 +419,7 @@ public class ApiService {
 
 			}
 
-			matchSummonerModels = matchSummonerRepository.findAllBySummonerNameByOrderByGameCreationDesc(tempName);
+			matchSummonerModels = matchSummonerRepository.findAllByAccountIdOrderByGameCreationDesc(summonerEntity.getAccountId());
 
 		}
 
@@ -439,6 +440,9 @@ public class ApiService {
 	
 	// api데이터가져오기
 	public synchronized boolean getApiData(String name) {
+		
+		// 공백과 대소문자 구분 제거
+		String tempName = name.replace(" ", "").toLowerCase();
 
 		try {
 
@@ -447,7 +451,7 @@ public class ApiService {
 
 			// 소환사 정보
 
-			ApiSummoner apiSummoner = getApiSummoner(name, apiKey);
+			ApiSummoner apiSummoner = getApiSummoner(tempName, apiKey);
 			Thread.sleep(1210);
 			
 			if (apiSummoner == null) {
@@ -571,9 +575,8 @@ public class ApiService {
 	}
 	
 	@Transactional
-	private synchronized ApiSummoner getApiSummoner(@PathVariable(name = "name") String name,
-			@PathVariable(name = "apikey") String apiKey) {
-
+	private synchronized ApiSummoner getApiSummoner(String name, String apiKey) {
+		
 		try {
 			// 소환사 정보
 
@@ -600,8 +603,10 @@ public class ApiService {
 				return null;
 
 			}
+			
+			String tempName = name.replace(" ", "").toLowerCase();
 
-			SummonerModel summonerEntity = summonerRepository.findByName(name);
+			SummonerModel summonerEntity = summonerRepository.findByName(tempName);
 
 			SummonerModel summonerModel = null;
 
@@ -637,8 +642,7 @@ public class ApiService {
 	}
 	
 	@Transactional
-	private synchronized ApiSummoner getApiSummonerByAccountId(@PathVariable(name = "name") String accountId,
-			@PathVariable(name = "apikey") String apiKey) {
+	private synchronized ApiSummoner getApiSummonerByAccountId(String accountId, String apiKey) {
 
 		try {
 			// 소환사 정보
