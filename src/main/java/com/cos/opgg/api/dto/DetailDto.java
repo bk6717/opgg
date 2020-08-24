@@ -19,8 +19,6 @@ import lombok.NoArgsConstructor;
 public class DetailDto {
 	
     private int type;
-	private int statusCode;
-	private String message;
 
     private MatchCommonModel matchCommonModel;
 

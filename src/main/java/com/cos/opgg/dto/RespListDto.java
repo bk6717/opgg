@@ -1,5 +1,7 @@
 package com.cos.opgg.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RespDto<T> {
-	
+public class RespListDto<T> {
 	private int statusCode;
 	private String message;
-	private T Data;
+	private List<T> data;
 }

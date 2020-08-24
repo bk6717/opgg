@@ -18,8 +18,6 @@ import lombok.NoArgsConstructor;
 public class InfoDto {
 
     private int type;
-	private int statusCode;
-	private String message;
 
     private SummonerModel summonerModel;
 
