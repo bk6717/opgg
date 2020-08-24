@@ -334,9 +334,22 @@ public class ApiService {
 			entryEntities.add(EntryModel.builder().build());
 		}
 
+		// 랭킹가져오기
+		RankingModel rankingEntity = rankingRepository.findBySummonerName(tempName);
+		
 		// 헤더
-		InfoDto infoDtoHeader = InfoDto.builder().type(0).summonerModel(summonerEntity).entryModels(entryEntities)
-				.build();
+		InfoDto infoDtoHeader = null;
+		
+		if (rankingEntity == null) {
+			infoDtoHeader = InfoDto.builder().type(0).summonerModel(summonerEntity).entryModels(entryEntities)
+					.build();
+		} else {
+			infoDtoHeader = InfoDto.builder().type(0).radder(rankingEntity.getId()).summonerModel(summonerEntity).entryModels(entryEntities)
+					.build();
+		}
+		
+		
+
 
 		infoDtos.add(infoDtoHeader);
 
@@ -403,18 +416,10 @@ public class ApiService {
 		// 경기 유저 내용 dto에 담기
 		for (MatchSummonerModel matchSummonerEntity : matchSummonerModels) {
 			
-			String tempName1 = matchSummonerEntity.getSummonerName().replace(" ", "").toLowerCase();
-			
-			RankingModel rankingEntity = rankingRepository.findBySummonerName(tempName1);
-			
 			InfoDto infoDto = null;
 			
-			if(rankingEntity == null) {
-				infoDto = InfoDto.builder().type(1).matchSummonerModel(matchSummonerEntity).build();
-			}else {
-				infoDto = InfoDto.builder().type(1).radder(rankingEntity.getId()).matchSummonerModel(matchSummonerEntity).build();
-			}
-
+			infoDto = InfoDto.builder().type(1).matchSummonerModel(matchSummonerEntity).build();
+			
 			infoDtos.add(infoDto);
 
 		}
