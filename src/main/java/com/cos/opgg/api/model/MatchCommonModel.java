@@ -25,6 +25,7 @@ public class MatchCommonModel {
 	@Column(unique = true)
     private long gameId;
 	
+	private long queueId;
     private String platformId;
     private long gameCreation;
     private long gameDuration;

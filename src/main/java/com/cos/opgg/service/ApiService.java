@@ -52,7 +52,7 @@ import com.google.gson.reflect.TypeToken;
 
 @Service
 public class ApiService {
-	
+
 	@Autowired
 	SummonerRepository summonerRepository;
 
@@ -73,54 +73,53 @@ public class ApiService {
 
 	@Autowired
 	MatchEntryRepository matchEntryRepository;
-	
-	
+
 	// 싱글톤
 	private static ApiService apiUtil = new ApiService();
-	private ApiService() {};
-	
+
+	private ApiService() {
+	};
+
 	public static ApiService getInstance() {
 		return apiUtil;
 	}
-	
+
 	public synchronized RespDto<?> getRank(String name) {
-		
+
 		List<RankingDto> rankingDtos = new ArrayList<>();
 
 		long allUser = rankingRepository.countUser();
-		
+
 		String tempName0 = name.replace(" ", "").toLowerCase();
 
 		RankingModel rankingEntity0 = rankingRepository.findBySummonerName(tempName0);
-		
-		if(rankingEntity0 == null) {
+
+		if (rankingEntity0 == null) {
 			return new RespDto<RankingDto>(HttpStatus.BAD_REQUEST.value(), "해당 유저 정보가 없습니다.", null);
 		}
-		
+
 		long pageStart = rankingEntity0.getId();
-		
-		
-		RankingDto rankingDtoHeader = RankingDto.builder()
-				.type(0)
-				.allUser(allUser)
-				.build();
-		
+
+		RankingDto rankingDtoHeader = RankingDto.builder().type(0).allUser(allUser).build();
+
 		rankingDtos.add(rankingDtoHeader);
-		
+
 		List<RankingModel> rankingEntities = rankingRepository.find10ByPage(pageStart);
-		
-		if(rankingEntities == null || rankingEntities.size() == 0) {
+
+		if (rankingEntities == null || rankingEntities.size() == 0) {
 			return new RespDto<RankingDto>(HttpStatus.BAD_REQUEST.value(), "해당 페이지의 데이터가 없습니다.", null);
 		}
-		
+
 		for (RankingModel rankingEntity : rankingEntities) {
 			
+			RankingDto rankingDto = null;
+
 			String tempName = (rankingEntity.getSummonerName()).replace(" ", "").toLowerCase();
 			SummonerModel summonerEntity = summonerRepository.findByName(tempName);
-			
+
 			if (summonerEntity == null) {
 				tempName = (rankingEntity.getSummonerName()).replace(" ", "").toLowerCase();
-				
+
 				ApiSummoner apiSummoner = getApiSummoner(tempName, getApikey());
 				try {
 					Thread.sleep(1210);
@@ -128,65 +127,64 @@ public class ApiService {
 					e.printStackTrace();
 				}
 				
-				if(apiSummoner == null) {
-					return new RespDto<RankingDto>(HttpStatus.BAD_REQUEST.value(), "데이터를 가져오는 동안 오류가 발생했습니다.", null);
+				if (apiSummoner == null) {
+					rankingDto = RankingDto.builder().type(1).rankingModel(rankingEntity).build();
+				} else {
+					summonerEntity = summonerRepository.findByName(tempName);
+					rankingDto = RankingDto.builder().type(1).summonerModel(summonerEntity)
+							.rankingModel(rankingEntity).build();
 				}
 				
-				summonerEntity = summonerRepository.findByName(tempName);
-				
-			}
-			
+				rankingDtos.add(rankingDto);
 
-			RankingDto rankingDto = RankingDto.builder()
-					.type(1)
-					.summonerModel(summonerEntity)
-					.rankingModel(rankingEntity)
-					.build();
-			
-			rankingDtos.add(rankingDto);
-			
+
+			} else {
+				summonerEntity = summonerRepository.findByName(tempName);
+				rankingDto = RankingDto.builder().type(1).summonerModel(summonerEntity)
+						.rankingModel(rankingEntity).build();
+				rankingDtos.add(rankingDto);
+			}
 		}
-		
+
 		return new RespDto<List<RankingDto>>(HttpStatus.OK.value(), "정상", rankingDtos);
 	}
-	
+
 	public synchronized RespDto<?> getRank(long page) {
-		
+
 		List<RankingDto> rankingDtos = new ArrayList<>();
 
 		long pageStart;
-		
-		if(page < 1) {
+
+		if (page < 1) {
 			return new RespDto<RankingDto>(HttpStatus.BAD_REQUEST.value(), "잘못된 page를 입력하셨습니다.", null);
 		} else if (page == 1) {
 			pageStart = page;
 		} else {
 			pageStart = (page - 1) * 10 + 1;
 		}
-		
+
 		long allUser = rankingRepository.countUser();
-		
-		RankingDto rankingDtoHeader = RankingDto.builder()
-				.type(0)
-				.allUser(allUser)
-				.build();
-		
+
+		RankingDto rankingDtoHeader = RankingDto.builder().type(0).allUser(allUser).build();
+
 		rankingDtos.add(rankingDtoHeader);
-		
+
 		List<RankingModel> rankingEntities = rankingRepository.find10ByPage(pageStart);
-		
-		if(rankingEntities == null || rankingEntities.size() == 0) {
+
+		if (rankingEntities == null || rankingEntities.size() == 0) {
 			return new RespDto<RankingDto>(HttpStatus.BAD_REQUEST.value(), "해당 페이지의 데이터가 없습니다.", null);
 		}
-		
+
 		for (RankingModel rankingEntity : rankingEntities) {
 			
+			RankingDto rankingDto = null;
+
 			String tempName = (rankingEntity.getSummonerName()).replace(" ", "").toLowerCase();
 			SummonerModel summonerEntity = summonerRepository.findByName(tempName);
-			
+
 			if (summonerEntity == null) {
 				tempName = (rankingEntity.getSummonerName()).replace(" ", "").toLowerCase();
-				
+
 				ApiSummoner apiSummoner = getApiSummoner(tempName, getApikey());
 				try {
 					Thread.sleep(1210);
@@ -194,30 +192,29 @@ public class ApiService {
 					e.printStackTrace();
 				}
 				
-				if(apiSummoner == null) {
-					return new RespDto<RankingDto>(HttpStatus.BAD_REQUEST.value(), "데이터를 가져오는 동안 오류가 발생했습니다.", null);
+				if (apiSummoner == null) {
+					rankingDto = RankingDto.builder().type(1).rankingModel(rankingEntity).build();
+				} else {
+					summonerEntity = summonerRepository.findByName(tempName);
+					rankingDto = RankingDto.builder().type(1).summonerModel(summonerEntity)
+							.rankingModel(rankingEntity).build();
 				}
 				
-				summonerEntity = summonerRepository.findByName(tempName);
-				
-			}
-			
+				rankingDtos.add(rankingDto);
 
-			RankingDto rankingDto = RankingDto.builder()
-					.type(1)
-					.summonerModel(summonerEntity)
-					.rankingModel(rankingEntity)
-					.build();
-			
-			rankingDtos.add(rankingDto);
-			
-			
+
+			} else {
+				summonerEntity = summonerRepository.findByName(tempName);
+				rankingDto = RankingDto.builder().type(1).summonerModel(summonerEntity)
+						.rankingModel(rankingEntity).build();
+				rankingDtos.add(rankingDto);
+			}
+
 		}
-		
+
 		return new RespDto<List<RankingDto>>(HttpStatus.OK.value(), "정상", rankingDtos);
 	}
-	
-	
+
 	public synchronized RespDto<?> getDetail(long gameId) {
 
 		MatchCommonModel matchCommonEntity = matchCommonRepository.findByGameId(gameId);
@@ -267,7 +264,7 @@ public class ApiService {
 
 		return new RespDto<DetailDto>(HttpStatus.OK.value(), "정상", detailDto);
 	}
-	
+
 	public synchronized RespDto<?> getInfo(String name) {
 
 		List<InfoDto> infoDtos = new ArrayList<>();
@@ -312,32 +309,33 @@ public class ApiService {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
+
 			// api서버에도 아이디 없다면
 			if (apiEntries == null) {
-				
+
 				List<EntryModel> entryModels = new ArrayList<>();
 				entryModels.add(EntryModel.builder().build());
 				entryModels.add(EntryModel.builder().build());
 
 				// 헤더에 소환사정보만 담아넣기
-				InfoDto infoDtoHeader = InfoDto.builder().type(0).summonerModel(summonerEntity).entryModels(entryModels).build();
+				InfoDto infoDtoHeader = InfoDto.builder().type(0).summonerModel(summonerEntity).entryModels(entryModels)
+						.build();
 
 				infoDtos.add(infoDtoHeader);
 
 				return new RespDto<List<InfoDto>>(HttpStatus.OK.value(), "소환사 엔트리 정보가 없습니다.", infoDtos);
 			}
 			entryEntities = entryRepository.findAllBySummonerId(summonerEntity.getSummonerId());
-			
+
 		}
-		
-		if(entryEntities.size() < 2) {
+
+		if (entryEntities.size() < 2) {
 			entryEntities.add(EntryModel.builder().build());
 		}
-		
+
 		List<EntryModel> entryModels = new ArrayList<>();
-		
-		if(entryEntities.get(0).getQueueType().equals("RANKED_SOLO_5x5")) {
+
+		if (entryEntities.get(0).getQueueType().equals("RANKED_SOLO_5x5")) {
 			entryModels.add(entryEntities.get(0));
 			entryModels.add(entryEntities.get(1));
 		} else {
@@ -347,25 +345,24 @@ public class ApiService {
 
 		// 랭킹가져오기
 		RankingModel rankingEntity = rankingRepository.findBySummonerName(tempName);
-		
+
 		// 헤더
 		InfoDto infoDtoHeader = null;
-		
+
 		if (rankingEntity == null) {
-			infoDtoHeader = InfoDto.builder().type(0).summonerModel(summonerEntity).entryModels(entryModels)
-					.build();
+			infoDtoHeader = InfoDto.builder().type(0).summonerModel(summonerEntity).entryModels(entryModels).build();
 		} else {
-			infoDtoHeader = InfoDto.builder().type(0).radder(rankingEntity.getId()).summonerModel(summonerEntity).entryModels(entryModels)
-					.build();
+			infoDtoHeader = InfoDto.builder().type(0).radder(rankingEntity.getId()).summonerModel(summonerEntity)
+					.entryModels(entryModels).build();
 		}
 
 		infoDtos.add(infoDtoHeader);
-		
+
 		// 소환사의 경기 가져오기
 		List<MatchSummonerModel> matchSummonerModels = matchSummonerRepository
 				.findAllByAccountIdOrderByGameCreationDesc(summonerEntity.getAccountId());
-		
-		System.out.println("matchSummonerModels size " +matchSummonerModels.size());
+
+		System.out.println("matchSummonerModels size " + matchSummonerModels.size());
 
 		// 경기내용이 없을 경우
 		if (matchSummonerModels == null || matchSummonerModels.size() == 0) {
@@ -419,28 +416,28 @@ public class ApiService {
 
 			}
 
-			matchSummonerModels = matchSummonerRepository.findAllByAccountIdOrderByGameCreationDesc(summonerEntity.getAccountId());
+			matchSummonerModels = matchSummonerRepository
+					.findAllByAccountIdOrderByGameCreationDesc(summonerEntity.getAccountId());
 
 		}
 
 		// 경기 유저 내용 dto에 담기
 		for (MatchSummonerModel matchSummonerEntity : matchSummonerModels) {
-			
+
 			InfoDto infoDto = null;
-			
+
 			infoDto = InfoDto.builder().type(1).matchSummonerModel(matchSummonerEntity).build();
-			
+
 			infoDtos.add(infoDto);
 
 		}
 
 		return new RespDto<List<InfoDto>>(HttpStatus.OK.value(), "정상", infoDtos);
 	}
-	
-	
+
 	// api데이터가져오기
 	public synchronized boolean getApiData(String name) {
-		
+
 		// 공백과 대소문자 구분 제거
 		String tempName = name.replace(" ", "").toLowerCase();
 
@@ -453,7 +450,7 @@ public class ApiService {
 
 			ApiSummoner apiSummoner = getApiSummoner(tempName, apiKey);
 			Thread.sleep(1210);
-			
+
 			if (apiSummoner == null) {
 				return false;
 			}
@@ -461,7 +458,7 @@ public class ApiService {
 			// 엔트리
 			List<ApiEntry> apiEntries = getApiEntries(apiSummoner.getId(), apiKey);
 			Thread.sleep(1210);
-			
+
 			if (apiEntries == null || apiEntries.size() == 0) {
 				return false;
 			}
@@ -473,7 +470,7 @@ public class ApiService {
 			// 경기리스트
 			ApiMatchEntry apiMatchEntry = getApiMatchEntry(getApiMatchEntryDto, apiKey);
 			Thread.sleep(1210);
-			
+
 			if (apiMatchEntry == null) {
 				return false;
 			}
@@ -498,7 +495,7 @@ public class ApiService {
 
 				ApiMatch apiMatch = getApiMatch(match.getGameId(), apiKey);
 				Thread.sleep(1210);
-				
+
 				if (apiMatch == null) {
 					return false;
 				}
@@ -513,39 +510,38 @@ public class ApiService {
 
 		return false;
 	}
-	
-	
+
 	// 모든 랭킹정보 가져오기
 	public synchronized void getAllRank() {
-		
+
 		getChRank();
 		getGrMaRank();
 		getMaRank();
-		
+
 		List<String> tierStrings = new ArrayList<>();
 		tierStrings.add("DIAMOND");
 		tierStrings.add("PLATINUM");
 		tierStrings.add("GOLD");
 		tierStrings.add("SILVER");
 		tierStrings.add("BRONZE");
-		
+
 		List<String> rankStrings = new ArrayList<>();
 		rankStrings.add("I");
 		rankStrings.add("II");
 		rankStrings.add("III");
 		rankStrings.add("IV");
-		
+
 		for (String tier : tierStrings) {
-			
+
 			for (String rank : rankStrings) {
-				
-				getCommonRank(tier,rank);
-				
+
+				getCommonRank(tier, rank);
+
 			}
-			
+
 		}
 	}
-	
+
 	// api키 가져오기
 	private String getApikey() {
 		try {
@@ -573,19 +569,25 @@ public class ApiService {
 		}
 		return null;
 	}
-	
+
 	@Transactional
 	private synchronized ApiSummoner getApiSummoner(String name, String apiKey) {
-		
+
 		try {
 			// 소환사 정보
+			System.out.println("소환사정보 가져오기 시작");
+			System.out.println(name);
 
 			URL url = new URL(
 					"https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + name + "?api_key=" + apiKey);
-
+			
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
+			System.out.println("HttpURLConnection con = (HttpURLConnection) url.openConnection();");
+			
 			BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
+			
+			System.out.println("BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), \"UTF-8\"));");
 
 			StringBuilder sb = new StringBuilder();
 
@@ -594,24 +596,31 @@ public class ApiService {
 				sb.append(input);
 			}
 			
+			System.out.println("StringBuilder sb = new StringBuilder();");
+
 			Gson gson = new Gson();
 
+			System.out.println("Gson gson = new Gson();");
+			
 			ApiSummoner apiSummoner = gson.fromJson(sb.toString(), ApiSummoner.class);
-
+			System.out.println("apiSummoner 낫널");
 			if (apiSummoner == null) {
-
+				System.out.println("apiSummoner == null");
 				return null;
 
 			}
-			
+
 			String tempName = name.replace(" ", "").toLowerCase();
+
+
 
 			SummonerModel summonerEntity = summonerRepository.findByName(tempName);
 
 			SummonerModel summonerModel = null;
+			System.out.println("summonerEntity");
 
 			if (summonerEntity == null) {
-
+				System.out.println("summonerEntity == null");
 				summonerModel = SummonerModel.builder().summonerId(apiSummoner.getId())
 						.accountId(apiSummoner.getAccountId()).name(apiSummoner.getName())
 						.profileIconId(apiSummoner.getProfileIconId()).puuid(apiSummoner.getPuuid())
@@ -634,21 +643,21 @@ public class ApiService {
 
 		} catch (Exception e) {
 
-			System.out.println("소환사정보를 가져오지 못했습니다.");
+			System.out.println("getApiSummoner 소환사정보를 가져오지 못했습니다.");
 
 		}
 
 		return null;
 	}
-	
+
 	@Transactional
 	private synchronized ApiSummoner getApiSummonerByAccountId(String accountId, String apiKey) {
 
 		try {
 			// 소환사 정보
 
-			URL url = new URL(
-					"https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-account/"+accountId+"?api_key=" + apiKey);
+			URL url = new URL("https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-account/" + accountId
+					+ "?api_key=" + apiKey);
 
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
@@ -887,7 +896,7 @@ public class ApiService {
 
 				MatchCommonModel matchCommonModel = MatchCommonModel.builder().gameCreation(apiMatch.getGameCreation())
 						.gameDuration(apiMatch.getGameDuration()).gameId(apiMatch.getGameId())
-						.gameMode(apiMatch.getGameMode()).mapId(apiMatch.getMapId())
+						.queueId(apiMatch.getQueueId()).gameMode(apiMatch.getGameMode()).mapId(apiMatch.getMapId())
 						.platformId(apiMatch.getPlatformId()).seasonId(apiMatch.getSeasonId()).build();
 
 				matchCommonRepository.save(matchCommonModel);
@@ -999,7 +1008,7 @@ public class ApiService {
 		return null;
 
 	}
-	
+
 	// 챌린저 랭크 가져오기
 	@Transactional
 	private synchronized void getChRank() {
@@ -1035,7 +1044,7 @@ public class ApiService {
 			Collections.sort(entries, new DescRank());
 
 			for (Entry entry : entries) {
-				
+
 				String tempName = (entry.getSummonerName()).replace(" ", "").toLowerCase();
 
 				RankingModel rankingEntity = rankingRepository.findBySummonerName(tempName);
@@ -1063,7 +1072,7 @@ public class ApiService {
 			System.out.println("챌린저 정보 가져오기에 실패하였습니다.");
 		}
 	}
-	
+
 	// 그랜드마스터 랭크정보가져오기
 	@Transactional
 	private synchronized void getGrMaRank() {
@@ -1131,7 +1140,7 @@ public class ApiService {
 			}
 			System.out.println("챌린저 정보 가져오기에 실패하였습니다.");
 		}
-		
+
 	}
 
 	// 마스터 랭크정보 가져오기
@@ -1169,7 +1178,7 @@ public class ApiService {
 			Collections.sort(entries, new DescRank());
 
 			for (Entry entry : entries) {
-				
+
 				String tempName = (entry.getSummonerName()).replace(" ", "").toLowerCase();
 
 				RankingModel rankingEntity = rankingRepository.findBySummonerName(tempName);
@@ -1185,9 +1194,8 @@ public class ApiService {
 				} else if (rankingEntity.getSummonerId().equals(entry.getSummonerId())) {
 
 					rankingModel = RankingModel.builder().id(rankingEntity.getId()).lose(entry.getLosses())
-							.win(entry.wins).leaguePoints(entry.getLeaguePoints()).tier("MASTER")
-							.rank(entry.getRank()).summonerName(entry.getSummonerName())
-							.summonerId(entry.getSummonerId()).build();
+							.win(entry.wins).leaguePoints(entry.getLeaguePoints()).tier("MASTER").rank(entry.getRank())
+							.summonerName(entry.getSummonerName()).summonerId(entry.getSummonerId()).build();
 				}
 
 				rankingRepository.save(rankingModel);
@@ -1201,25 +1209,25 @@ public class ApiService {
 			}
 			System.out.println("챌린저 정보 가져오기에 실패하였습니다.");
 		}
-		
+
 	}
-	
+
 	// 일반유저 랭크 정보 가져오기
 	@Transactional
 	private synchronized void getCommonRank(String tier, String rank) {
-		
+
 		int page = 1;
 		List<Entry> entries = new ArrayList<>();
-		
+
 		while (true) {
-			
+
 			try {
-				String urlSource ="https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/"+tier+"/"+rank+"?page="+page+"&api_key="+getApikey();
+				String urlSource = "https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/" + tier + "/"
+						+ rank + "?page=" + page + "&api_key=" + getApikey();
 
 				URL url = new URL(urlSource);
-				
+
 				HttpURLConnection con = (HttpURLConnection) url.openConnection();
-				
 
 				BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
 
@@ -1234,21 +1242,22 @@ public class ApiService {
 				con.disconnect(); // 스트림 닫기
 
 				Gson gson = new Gson();
-				Type listType = new TypeToken<ArrayList<Entry>>() {}.getType();
-				
+				Type listType = new TypeToken<ArrayList<Entry>>() {
+				}.getType();
+
 				List<Entry> apiEntries = gson.fromJson(sb.toString(), listType);
-				
+
 				if (apiEntries == null || apiEntries.size() == 0) {
 					break;
 				}
-				
+
 				Thread.sleep(1210);
 
 				if (entries == null) {
 					return;
 				}
 				entries.addAll(apiEntries);
-				
+
 				page++;
 
 			} catch (Exception e) {
@@ -1259,19 +1268,19 @@ public class ApiService {
 				}
 				System.out.println("일반유저 정보 가져오기에 실패하였습니다.");
 			}
-			
+
 		}
-		
+
 		Collections.sort(entries, new DescRank());
 
 		for (Entry entry : entries) {
-			
+
 			String tempName = (entry.getSummonerName()).replace(" ", "").toLowerCase();
 
 			RankingModel rankingEntity = rankingRepository.findBySummonerName(tempName);
 
 			RankingModel rankingModel = null;
-			
+
 			if (rankingEntity == null) {
 
 				rankingModel = RankingModel.builder().lose(entry.getLosses()).win(entry.wins)
@@ -1280,16 +1289,15 @@ public class ApiService {
 
 			} else if (rankingEntity.getSummonerId().equals(entry.getSummonerId())) {
 
-				rankingModel = RankingModel.builder().id(rankingEntity.getId()).lose(entry.getLosses())
-						.win(entry.wins).leaguePoints(entry.getLeaguePoints()).tier(tier)
-						.rank(entry.getRank()).summonerName(entry.getSummonerName())
-						.summonerId(entry.getSummonerId()).build();
+				rankingModel = RankingModel.builder().id(rankingEntity.getId()).lose(entry.getLosses()).win(entry.wins)
+						.leaguePoints(entry.getLeaguePoints()).tier(tier).rank(entry.getRank())
+						.summonerName(entry.getSummonerName()).summonerId(entry.getSummonerId()).build();
 			}
 
 			rankingRepository.save(rankingModel);
 		}
 	}
-	
+
 //	@GetMapping("test/desc")
 //	public List<MatchSummonerModel> testmsm() {
 //		return matchSummonerRepository.findAllBySummonerNameByOrderByGameCreationDesc("hideonbush");
