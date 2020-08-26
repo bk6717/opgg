@@ -6,14 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import com.cos.opgg.api.model.SummonerModel;
-import com.cos.opgg.dto.CommunityDto;
+import com.cos.opgg.api.dto.InfoDto;
 import com.cos.opgg.dto.RespDto;
-import com.cos.opgg.dto.RespListDto;
 import com.cos.opgg.model.Post;
 import com.cos.opgg.model.Reply;
 import com.cos.opgg.repository.PostRepository;
