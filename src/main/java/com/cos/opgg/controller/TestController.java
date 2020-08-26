@@ -3,10 +3,12 @@ package com.cos.opgg.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import com.cos.opgg.api.model.SummonerModel;
 import com.cos.opgg.dto.CommunityDto;
@@ -33,7 +35,7 @@ public class TestController {
 	
 	// rankingDto 가져오기 아이디 검색
 	@GetMapping("test/ranking/name/{name}")
-	public RespListDto<?> getRankByName(@PathVariable String name) {
+	public RespDto<?> getRankByName(@PathVariable String name) {
 
 		return apiService.getRank(name);
 	}
@@ -41,7 +43,7 @@ public class TestController {
 
 	// rankingDto 가져오기
 	@GetMapping("test/ranking/page/{page}")
-	public RespListDto<?> getRankByPage(@PathVariable long page) {
+	public RespDto<?> getRankByPage(@PathVariable long page) {
 
 		return apiService.getRank(page);
 	}
@@ -57,9 +59,23 @@ public class TestController {
 
 	// infoDto 가져오기
 	@GetMapping("test/info/name/{name}")
-	public RespListDto<?> getInfoByName(@PathVariable String name) {
+	public RespDto<?> getInfoByName(@PathVariable String name) {
 
 		return apiService.getInfo(name);
+	}
+	
+	// 전적갱신하기
+	@GetMapping("test/info/update/name/{name}")
+	public RespDto<?> updateInfoByName(@PathVariable String name) {
+		
+		boolean isGetData = apiService.getApiData(name);
+		
+		if (isGetData) {
+			return apiService.getInfo(name);
+		} else {
+			return new RespDto<List<InfoDto>>(HttpStatus.BAD_REQUEST.value(), "전적갱신에 실패하였습니다.", null);
+		}
+		
 	}
 	
 	

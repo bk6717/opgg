@@ -13,5 +13,5 @@ public class RespDto<T> {
 	
 	private int statusCode;
 	private String message;
-	private T Data;
+	private T data;
 }
