@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SqlResultSetMapping;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.cos.opgg.dto.PostUserDto;
@@ -39,10 +40,13 @@ public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
 	private String title;
 	private String content;
 	
+	@ColumnDefault("0")
 	private int likeCount;
+	@ColumnDefault("0")
 	private int viewCount;
 	
 	@ManyToOne

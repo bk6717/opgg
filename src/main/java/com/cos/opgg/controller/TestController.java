@@ -38,6 +38,7 @@ public class TestController {
 
 	
 	
+	
 	//상세보기 
 	@GetMapping("/test/post/detail/{postId}")
 	public RespDto<?> testDetail(@PathVariable int postId){
