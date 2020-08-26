@@ -55,4 +55,5 @@ public class Post {
 	
 	@CreationTimestamp
 	private Timestamp createDate;
+	
 }
