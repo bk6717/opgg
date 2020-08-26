@@ -7,8 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.data.domain.Sort;
@@ -24,6 +28,8 @@ import com.cos.opgg.repository.ReplyRepository;
 import com.cos.opgg.repository.SummonerRepository;
 import com.cos.opgg.service.ApiService;
 
+import lombok.Delegate;
+
 @RestController
 public class TestController {
 
@@ -35,9 +41,94 @@ public class TestController {
 	ReplyRepository replyRepostory;
 	@Autowired
 	ApiService apiService;
+	
+	//댓글 삭제
+	@DeleteMapping("test/reply/delete/{id}")
+	public RespDto<?> replyDelete(@PathVariable int id){
+		
+		replyRepostory.deleteById(id);
+		
+		return new RespDto<String>(HttpStatus.OK.value(), "정상" , null);
+	}
+	
+	//댓글 수정
+	@PutMapping("test/reply/updateProc")
+	public RespDto<?> replyUpdate(@RequestBody Reply reply){
+		
+		Reply replyEntity = replyRepostory.findById(reply.getId());
+		
+		if(replyEntity == null) {
+			// 널처리
+		}
+		
+		Reply replyinput = Reply.builder()
+				.id(replyEntity.getId())
+				.createDate(replyEntity.getCreateDate())
+				.reply(reply.getReply())
+				.post(replyEntity.getPost())
+				.user(replyEntity.getUser())
+				.build();
+		
+		replyEntity = replyRepostory.save(replyinput);
+		return new RespDto<String>(HttpStatus.OK.value(), "정상" , null);
+	}
 
+	//댓글 입력
+	@PostMapping("/test/reply/writeProc")
+	public RespDto<?> testReply(@RequestBody Reply reply){
+		
+		Reply replyEntity = replyRepostory.save(reply);
+		
+		
+		
+		return new RespDto<String>(HttpStatus.OK.value(), "정상" , null);
+	}
 	
+////////////////////////////////////post////////////////////////////////////////////
 	
+	//글삭제 
+	@DeleteMapping("/test/post/deleteProc/{id}")
+	public RespDto<?> postDelete(@PathVariable int id){
+		
+		postRepository.deleteById(id);
+		
+		return new RespDto<String>(HttpStatus.OK.value(), "정상" , null);
+	}
+	//글 수정
+	@PutMapping("/test/post/updateProc")
+	public RespDto<?> testUpdate(@RequestBody Post post){
+		
+		Post postEntity = postRepository.findById(post.getId());
+		
+		
+		
+//		if(postEntity == null) {
+//			return new RespDto<String>(HttpStatus.BAD_REQUEST.value(), "잘못된 요청입니다." , null);
+//		}
+		
+		Post postInput = Post.builder()
+				.id(postEntity.getId())
+				.title(post.getTitle())
+				.content(post.getContent())
+				.createDate(postEntity.getCreateDate())
+				.likeCount(postEntity.getLikeCount())
+				.viewCount(postEntity.getViewCount())
+				.user(postEntity.getUser())
+				.build();
+		
+		postEntity = postRepository.save(postInput);
+		
+		return new RespDto<String>(HttpStatus.OK. value(), "정상" , null);
+	}
+	
+	//커뮤니티 글쓰기
+	@PostMapping("/test/post/writeProc")
+	public RespDto<?> testWrite(@RequestBody Post post){
+		
+		Post postEntity = postRepository.save(post);
+		
+		return new RespDto<String>(HttpStatus.OK.value(), "정상" , null);
+	}
 	
 	//상세보기 
 	@GetMapping("/test/post/detail/{postId}")

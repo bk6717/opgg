@@ -3,6 +3,7 @@ package com.cos.opgg.model;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -54,7 +55,6 @@ public class Post {
 	private User user;
 	
 	@OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-	@JsonIgnoreProperties({"post"})
 	private List<Reply> replies;
 	
 	@CreationTimestamp
