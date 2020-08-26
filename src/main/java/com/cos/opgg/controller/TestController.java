@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 
 import com.cos.opgg.api.dto.InfoDto;
 import com.cos.opgg.dto.CommunityDto;
@@ -27,8 +26,6 @@ import com.cos.opgg.repository.PostRepository;
 import com.cos.opgg.repository.ReplyRepository;
 import com.cos.opgg.repository.SummonerRepository;
 import com.cos.opgg.service.ApiService;
-
-import lombok.Delegate;
 
 @RestController
 public class TestController {
@@ -83,8 +80,6 @@ public class TestController {
 		
 		return new RespDto<String>(HttpStatus.OK.value(), "정상" , null);
 	}
-	
-////////////////////////////////////post////////////////////////////////////////////
 	
 	//글삭제 
 	@DeleteMapping("/test/post/deleteProc/{id}")
