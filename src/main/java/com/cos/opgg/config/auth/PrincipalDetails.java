@@ -2,6 +2,7 @@ package com.cos.opgg.config.auth;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -65,12 +66,13 @@ public class PrincipalDetails implements UserDetails{
       	System.out.println("auth.PrincipalDetails의 getAuthorities에 왔습니다");
 
 		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        user.getRoleList().forEach(r -> {
-          	System.out.println("auth.PrincipalDetails의 getAuthorities의 authorities= "+authorities);
 
-        	authorities.add(()->{ return r;});
-        });
-     	System.out.println("auth.PrincipalDetails의 getAuthorities의 authorities의 완결판= "+authorities);
+		String[] userRolesArray = user.getRoles().split(",");	
+		
+		for (String string : userRolesArray) {
+			authorities.add(()->{return string;});
+		}
+		
         return authorities;
     }
 }

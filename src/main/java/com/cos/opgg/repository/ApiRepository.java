@@ -16,4 +16,5 @@ public interface ApiRepository {
 	public int saveMatchTeamModel(MatchTeamModel matchTeamModel);
 	public int saveRankingModel(RankingModel rankingModel);
 	public int saveSummonerModel(SummonerModel summonerModel);
+	
 }
