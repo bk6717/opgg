@@ -1,48 +1,60 @@
 package com.cos.opgg.controller;
 
-
-
-
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cos.opgg.dto.PostUserDto;
+import com.cos.opgg.dto.RespDto;
 import com.cos.opgg.model.Post;
-import com.cos.opgg.repository.PostRepository;
-import com.cos.opgg.repository.UserRepository;
+import com.cos.opgg.service.PostService;
 
 @RestController
+@RequestMapping("/post/")
 public class PostController {
-
+	
 	@Autowired
-	private PostRepository postRepository;
+	private PostService postService;
 	
-
+	//글 전체보기
+	@GetMapping("{page}")
+	public RespDto<?> findAll(@PathVariable int page){
+		
+		return postService.findAll(page);
+	}
+	//글 상세보기
+	@GetMapping("detail/{id}")
+	public RespDto<?> postDetail(@PathVariable int id){
+		return postService.detail(id);
+	}
 	
-
-	//전체 찾기
- 	// user 테이블에 user도 가져와야 함
-	@GetMapping("/post")
-	public List<Post> find(){
-		List<Post> post = postRepository.findAll();
-		System.out.println(post);
-		return post;
+	//글 등록 
+	@PostMapping("/writeProc")
+	public RespDto<?> writeProc(@RequestBody Post post){
+		postService.write(post);
+		return new RespDto<String>(HttpStatus.OK. value(), "정상" , null); 
+	}
+	
+	//글 수정
+	@PutMapping("/update")
+	public RespDto<?> updateTitleAndContent(@RequestBody Post post){
+		postService.updateTitleAndContent(post);
+		return new RespDto<String>(HttpStatus.OK. value(), "정상" , null); 
+	}
+	
+	//글삭제//////////////////////나중에 바꿔야함 
+	@DeleteMapping("/delete/{id}")
+	public RespDto<?> deleteById(@PathVariable int id){
+		postService.deleteById(id);
+		return new RespDto<String>(HttpStatus.OK. value(), "정상" , null);
 	}
 	
 	
-
-	
-	
-//	//상세보기  
-//	@GetMapping("/post/{id}")
-//	public Post findById(@PathVariable int id) {
-//		Post post = postRepository.findById(id);
-//		
-//		return post;
-//	}
-	
 }
+ 
