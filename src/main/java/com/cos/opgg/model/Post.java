@@ -18,6 +18,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.cos.opgg.dto.PostUserDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -61,7 +62,8 @@ public class Post {
 	@JoinColumn(name = "userId")
 	private User user;
 	
-	@OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
+	@JsonIgnoreProperties({"post"}) // replies안의 post안가져오기
 	private List<Reply> replies;
 	
 	@CreationTimestamp

@@ -142,14 +142,14 @@ public class TestController {
 	@GetMapping("/test/post/{page}")
 	public RespDto<?> testCommuniy(@PathVariable int page) {
 
-		PageRequest pageRequest = PageRequest.of(0, 40, Sort.by(Direction.DESC, "id"));
+		PageRequest pageRequest = PageRequest.of(page, 40, Sort.by(Direction.DESC, "id"));
 
 		Page<Post> pagePost = postRepository.findAll(pageRequest);
 		List<Post> posts = pagePost.getContent();
 		
-
 		List<CommunityDto> communityDtos = new ArrayList<>();
 
+		
 		for (Post post : posts) {
 
 			CommunityDto communityDto = CommunityDto.builder().type(1).post(post).build();
@@ -160,11 +160,11 @@ public class TestController {
 		
 		if(posts.size() < 40) {
 			
-			CommunityDto communityDtoFooter = CommunityDto.builder().type(2).build();
+			CommunityDto communityDtoFooter = CommunityDto.builder().type(posts.size()).build();
 
 			communityDtos.add(communityDtoFooter);
 			
-			return new RespDto<List<CommunityDto>>(HttpStatus.NO_CONTENT.value(),"더이상 값이 없습니다.",communityDtos);
+			return new RespDto<List<CommunityDto>>(HttpStatus.NO_CONTENT.value(),"마지막페이지입니다",communityDtos);
 		}
 
 		CommunityDto communityDtoFooter = CommunityDto.builder().type(2).build();
@@ -172,10 +172,10 @@ public class TestController {
 		communityDtos.add(communityDtoFooter);
 		
 		if(page == 0) {
-			return new RespDto<List<CommunityDto>>(HttpStatus.CREATED.value(),"정상",communityDtos);
+			return new RespDto<List<CommunityDto>>(HttpStatus.CREATED.value(),"첫페이지 입니다",communityDtos);
 		}
 
-		return new RespDto<List<CommunityDto>>(HttpStatus.OK.value(),"정상",communityDtos);
+		return new RespDto<List<Post>>(HttpStatus.OK.value(),"정상", posts);
 	}
 
 	// rankingDto 가져오기 아이디 검색

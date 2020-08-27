@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -43,6 +46,7 @@ public class Reply {
 	
 	@ManyToOne
 	@JoinColumn(name = "postId")
+	@JsonIgnoreProperties({"replies"}) // post안에있는 replies안가져오기
 	private Post post;
 	
 	@CreationTimestamp
