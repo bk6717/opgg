@@ -33,8 +33,10 @@ public class Reply {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private int id;
 	
+	@Column(name = "reply")
 	private String reply;
 	
 	@ManyToOne
@@ -47,6 +49,7 @@ public class Reply {
 	private Post post;
 	
 	@CreationTimestamp
+	@Column(name = "createDate")
 	private Timestamp createDate;
 	
 }

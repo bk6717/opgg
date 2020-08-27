@@ -40,14 +40,21 @@ public class Post {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private int id;
 	
+	@Column(name = "title")
 	private String title;
+	
+	@Column(name = "content")
 	private String content;
 	
 	@ColumnDefault("0")
+	@Column(name = "likeCount")
 	private int likeCount;
+	
 	@ColumnDefault("0")
+	@Column(name = "viewCount")
 	private int viewCount;
 	
 	@ManyToOne
@@ -59,6 +66,7 @@ public class Post {
 	private List<Reply> replies;
 	
 	@CreationTimestamp
+	@Column(name = "createDate")
 	private Timestamp createDate;
 	
 }

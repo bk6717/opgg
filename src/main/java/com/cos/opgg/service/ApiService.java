@@ -80,6 +80,7 @@ public class ApiService {
 	private ApiService() {
 	};
 
+	
 	public static ApiService getInstance() {
 		return apiUtil;
 	}
@@ -118,22 +119,24 @@ public class ApiService {
 			SummonerModel summonerEntity = summonerRepository.findByName(tempName);
 
 			if (summonerEntity == null) {
-				tempName = (rankingEntity.getSummonerName()).replace(" ", "").toLowerCase();
-
-				ApiSummoner apiSummoner = getApiSummoner(tempName, getApikey());
-				try {
-					Thread.sleep(1210);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+//				tempName = (rankingEntity.getSummonerName()).replace(" ", "").toLowerCase();
+//
+//				ApiSummoner apiSummoner = getApiSummoner(tempName, getApikey());
+//				try {
+//					Thread.sleep(1210);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+//				
+//				if (apiSummoner == null) {
+//					rankingDto = RankingDto.builder().type(1).rankingModel(rankingEntity).build();
+//				} else {
+//					summonerEntity = summonerRepository.findByName(tempName);
+//					rankingDto = RankingDto.builder().type(1).summonerModel(summonerEntity)
+//							.rankingModel(rankingEntity).build();
+//				}
 				
-				if (apiSummoner == null) {
-					rankingDto = RankingDto.builder().type(1).rankingModel(rankingEntity).build();
-				} else {
-					summonerEntity = summonerRepository.findByName(tempName);
-					rankingDto = RankingDto.builder().type(1).summonerModel(summonerEntity)
-							.rankingModel(rankingEntity).build();
-				}
+				rankingDto = RankingDto.builder().type(1).rankingModel(rankingEntity).build();
 				
 				rankingDtos.add(rankingDto);
 
@@ -146,7 +149,7 @@ public class ApiService {
 			}
 		}
 
-		return new RespDto<List<RankingDto>>(HttpStatus.OK.value(), "정상", rankingDtos);
+		return new RespDto<List<RankingDto>>(HttpStatus.RESET_CONTENT.value(), "정상", rankingDtos);
 	}
 
 	public synchronized RespDto<?> getRank(long page) {
@@ -183,22 +186,24 @@ public class ApiService {
 			SummonerModel summonerEntity = summonerRepository.findByName(tempName);
 
 			if (summonerEntity == null) {
-				tempName = (rankingEntity.getSummonerName()).replace(" ", "").toLowerCase();
-
-				ApiSummoner apiSummoner = getApiSummoner(tempName, getApikey());
-				try {
-					Thread.sleep(1210);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+//				tempName = (rankingEntity.getSummonerName()).replace(" ", "").toLowerCase();
+//
+//				ApiSummoner apiSummoner = getApiSummoner(tempName, getApikey());
+//				try {
+//					Thread.sleep(1210);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+//				
+//				if (apiSummoner == null) {
+//					rankingDto = RankingDto.builder().type(1).rankingModel(rankingEntity).build();
+//				} else {
+//					summonerEntity = summonerRepository.findByName(tempName);
+//					rankingDto = RankingDto.builder().type(1).summonerModel(summonerEntity)
+//							.rankingModel(rankingEntity).build();
+//				}
 				
-				if (apiSummoner == null) {
-					rankingDto = RankingDto.builder().type(1).rankingModel(rankingEntity).build();
-				} else {
-					summonerEntity = summonerRepository.findByName(tempName);
-					rankingDto = RankingDto.builder().type(1).summonerModel(summonerEntity)
-							.rankingModel(rankingEntity).build();
-				}
+				rankingDto = RankingDto.builder().type(1).rankingModel(rankingEntity).build();
 				
 				rankingDtos.add(rankingDto);
 
@@ -231,8 +236,9 @@ public class ApiService {
 
 		MatchTeamModel winTeam;
 		MatchTeamModel loseTeam;
+		
 
-		if (matchTeamEntities.get(0).getWin().equals("win")) {
+		if (matchTeamEntities.get(0).getWin().equals("Win")) {
 			winTeam = matchTeamEntities.get(0);
 			loseTeam = matchTeamEntities.get(1);
 		} else {

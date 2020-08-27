@@ -20,20 +20,28 @@ public class SummonerModel {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
     private int id;
 	
-	@Column(unique = true)
+	@Column(name = "summonerId", unique = true)
     private String summonerId;
 	
-	@Column(unique = true)
+	@Column(name = "accountId",unique = true)
     private String accountId;
 	
-	@Column(unique = true)
+	@Column(name = "puuid",unique = true)
     private String puuid;
 	
+	@Column(name = "name")
     private String name;
+	
+	@Column(name = "profileIconId")
     private long profileIconId;
+	
+	@Column(name = "revisionDate")
     private long revisionDate;
+	
+	@Column(name = "summonerLevel")
     private long summonerLevel;
 
 }
