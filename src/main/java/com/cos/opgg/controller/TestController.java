@@ -23,16 +23,23 @@ import com.cos.opgg.dto.CommunityDto;
 import com.cos.opgg.dto.RespDto;
 import com.cos.opgg.model.Post;
 import com.cos.opgg.model.Reply;
+import com.cos.opgg.model.User;
 import com.cos.opgg.repository.PostRepository;
 import com.cos.opgg.repository.ReplyRepository;
 import com.cos.opgg.repository.SummonerRepository;
+import com.cos.opgg.repository.UserRepository;
 import com.cos.opgg.service.ApiService;
+import com.cos.opgg.service.PostService;
 
 import lombok.Delegate;
 
 @RestController
 public class TestController {
-
+	
+	@Autowired
+	PostService postService;
+	@Autowired
+	UserRepository userRepository;
 	@Autowired
 	SummonerRepository summonerRepository;
 	@Autowired
@@ -42,146 +49,156 @@ public class TestController {
 	@Autowired
 	ApiService apiService;
 	
-	//댓글 삭제
-	@DeleteMapping("test/reply/delete/{id}")
-	public RespDto<?> replyDelete(@PathVariable int id){
+	//회원가입
+	@PostMapping("/test/join")
+	public String join(@RequestBody User user) {
 		
-		replyRepostory.deleteById(id);
-		
-		return new RespDto<String>(HttpStatus.OK.value(), "정상" , null);
+		userRepository.save(user);
+					
+		return "회원가입 완료";
 	}
 	
-	//댓글 수정
-	@PutMapping("test/reply/updateProc")
-	public RespDto<?> replyUpdate(@RequestBody Reply reply){
-		
-		Reply replyEntity = replyRepostory.findById(reply.getId());
-		
-		if(replyEntity == null) {
-			// 널처리
-		}
-		
-		Reply replyinput = Reply.builder()
-				.id(replyEntity.getId())
-				.createDate(replyEntity.getCreateDate())
-				.reply(reply.getReply())
-				.post(replyEntity.getPost())
-				.user(replyEntity.getUser())
-				.build();
-		
-		replyEntity = replyRepostory.save(replyinput);
-		return new RespDto<String>(HttpStatus.OK.value(), "정상" , null);
-	}
+	
+//	//댓글 삭제
+//	@DeleteMapping("test/reply/delete/{id}")
+//	public RespDto<?> replyDelete(@PathVariable int id){
+//		
+//		replyRepostory.deleteById(id);
+//		
+//		return new RespDto<String>(HttpStatus.OK.value(), "정상" , null);
+//	}
+	
+	//댓글 수정 ??
+//	@PutMapping("test/reply/updateProc")
+//	public RespDto<?> replyUpdate(@RequestBody Reply reply){
+//		
+//		Reply replyEntity = replyRepostory.findById(reply.getId());
+//		
+//		if(replyEntity == null) {
+//			// 널처리
+//		}
+//		
+//		Reply replyinput = Reply.builder()
+//				.id(replyEntity.getId())
+//				.createDate(replyEntity.getCreateDate())
+//				.reply(reply.getReply())
+//				.post(replyEntity.getPost())
+//				.user(replyEntity.getUser())
+//				.build();
+//		
+//		replyEntity = replyRepostory.save(replyinput);
+//		return new RespDto<String>(HttpStatus.OK.value(), "정상" , null);
+//	}
 
-	//댓글 입력
-	@PostMapping("/test/reply/writeProc")
-	public RespDto<?> testReply(@RequestBody Reply reply){
-		
-		Reply replyEntity = replyRepostory.save(reply);
-		
-		
-		
-		return new RespDto<String>(HttpStatus.OK.value(), "정상" , null);
-	}
+//	//댓글 입력
+//	@PostMapping("/test/reply/writeProc")
+//	public RespDto<?> testReply(@RequestBody Reply reply){
+//		
+//		Reply replyEntity = replyRepostory.save(reply);
+//		
+//		
+//		
+//		return new RespDto<String>(HttpStatus.OK.value(), "정상" , null);
+//	}
 	
 ////////////////////////////////////post////////////////////////////////////////////
 	
-	//글삭제 
-	@DeleteMapping("/test/post/deleteProc/{id}")
-	public RespDto<?> postDelete(@PathVariable int id){
-		
-		postRepository.deleteById(id);
-		
-		return new RespDto<String>(HttpStatus.OK.value(), "정상" , null);
-	}
+//	//글삭제 
+//	@DeleteMapping("/test/post/deleteProc/{id}")
+//	public RespDto<?> postDelete(@PathVariable int id){
+//		
+//		postRepository.deleteById(id);
+//		
+//		return new RespDto<String>(HttpStatus.OK.value(), "정상" , null);
+//	}
 	//글 수정
-	@PutMapping("/test/post/updateProc")
-	public RespDto<?> testUpdate(@RequestBody Post post){
-		
-		Post postEntity = postRepository.findById(post.getId());
-		
-		
-		
-//		if(postEntity == null) {
-//			return new RespDto<String>(HttpStatus.BAD_REQUEST.value(), "잘못된 요청입니다." , null);
+//	@PutMapping("/test/post/updateProc")
+//	public RespDto<?> testUpdate(@RequestBody Post post){
+//		postService.updatePost(post);
+//		Post postEntity = postRepository.findById(post.getId());
+//		
+//		
+//		
+////		if(postEntity == null) {
+////			return new RespDto<String>(HttpStatus.BAD_REQUEST.value(), "잘못된 요청입니다." , null);
+////		}
+//		
+//		Post postInput = Post.builder()
+//				.id(postEntity.getId())
+//				.title(post.getTitle())
+//				.content(post.getContent())
+//				.createDate(postEntity.getCreateDate())
+//				.likeCount(postEntity.getLikeCount())
+//				.viewCount(postEntity.getViewCount())
+//				.user(postEntity.getUser())
+//				.build();
+//		
+//		postEntity = postRepository.save(postInput);
+//		
+//		return new RespDto<String>(HttpStatus.OK. value(), "정상" , null);
+//	}
+	
+//	//커뮤니티 글쓰기
+//	@PostMapping("/test/post/writeProc")
+//	public RespDto<?> testWrite(@RequestBody Post post){
+//		
+//		Post postEntity = postRepository.save(post);
+//		
+//		return new RespDto<String>(HttpStatus.OK.value(), "정상" , null);
+//	}
+//	
+//	//상세보기 
+//	@GetMapping("/test/post/detail/{postId}")
+//	public RespDto<?> testDetail(@PathVariable int postId){
+//		
+//		Post post = postRepository.findById(postId);
+//		CommunityDto communityDto = CommunityDto.builder()
+//				.type(1)
+//				.post(post)
+//				.build();
+//		
+//		
+//		return new RespDto<CommunityDto>(HttpStatus.OK.value(), "정상" , communityDto);
+//	}
+//	//글전체 보기
+//	@GetMapping("/test/post/{page}")
+//	public RespDto<?> testCommuniy(@PathVariable int page) {
+//
+//		PageRequest pageRequest = PageRequest.of(page, 40, Sort.by(Direction.DESC, "id"));
+//
+//		Page<Post> pagePost = postRepository.findAll(pageRequest);
+//		List<Post> posts = pagePost.getContent();
+//		
+//
+//		List<CommunityDto> communityDtos = new ArrayList<>();
+//
+//		for (Post post : posts) {
+//
+//			CommunityDto communityDto = CommunityDto.builder().type(1).post(post).build();
+//
+//			communityDtos.add(communityDto);
+//
 //		}
-		
-		Post postInput = Post.builder()
-				.id(postEntity.getId())
-				.title(post.getTitle())
-				.content(post.getContent())
-				.createDate(postEntity.getCreateDate())
-				.likeCount(postEntity.getLikeCount())
-				.viewCount(postEntity.getViewCount())
-				.user(postEntity.getUser())
-				.build();
-		
-		postEntity = postRepository.save(postInput);
-		
-		return new RespDto<String>(HttpStatus.OK. value(), "정상" , null);
-	}
-	
-	//커뮤니티 글쓰기
-	@PostMapping("/test/post/writeProc")
-	public RespDto<?> testWrite(@RequestBody Post post){
-		
-		Post postEntity = postRepository.save(post);
-		
-		return new RespDto<String>(HttpStatus.OK.value(), "정상" , null);
-	}
-	
-	//상세보기 
-	@GetMapping("/test/post/detail/{postId}")
-	public RespDto<?> testDetail(@PathVariable int postId){
-		
-		Post post = postRepository.findById(postId);
-		CommunityDto communityDto = CommunityDto.builder()
-				.type(1)
-				.post(post)
-				.build();
-		
-		
-		return new RespDto<CommunityDto>(HttpStatus.OK.value(), "정상" , communityDto);
-	}
-	//글전체 보기
-	@GetMapping("/test/post/{page}")
-	public RespDto<?> testCommuniy(@PathVariable int page) {
-
-		PageRequest pageRequest = PageRequest.of(0, 40, Sort.by(Direction.DESC, "id"));
-
-		Page<Post> pagePost = postRepository.findAll(pageRequest);
-		List<Post> posts = pagePost.getContent();
-		
-
-		List<CommunityDto> communityDtos = new ArrayList<>();
-
-		for (Post post : posts) {
-
-			CommunityDto communityDto = CommunityDto.builder().type(1).post(post).build();
-
-			communityDtos.add(communityDto);
-
-		}
-		
-		if(posts.size() < 40) {
-			
-			CommunityDto communityDtoFooter = CommunityDto.builder().type(2).build();
-
-			communityDtos.add(communityDtoFooter);
-			
-			return new RespDto<List<CommunityDto>>(HttpStatus.NO_CONTENT.value(),"더이상 값이 없습니다.",communityDtos);
-		}
-
-		CommunityDto communityDtoFooter = CommunityDto.builder().type(2).build();
-
-		communityDtos.add(communityDtoFooter);
-		
-		if(page == 0) {
-			return new RespDto<List<CommunityDto>>(HttpStatus.CREATED.value(),"정상",communityDtos);
-		}
-
-		return new RespDto<List<CommunityDto>>(HttpStatus.OK.value(),"정상",communityDtos);
-	}
+//		
+//		if(posts.size() < 40) {
+//			
+//			CommunityDto communityDtoFooter = CommunityDto.builder().type(2).build();
+//
+//			communityDtos.add(communityDtoFooter);
+//			
+//			return new RespDto<List<CommunityDto>>(HttpStatus.NO_CONTENT.value(),"더이상 값이 없습니다.",communityDtos);
+//		}
+//
+//		CommunityDto communityDtoFooter = CommunityDto.builder().type(2).build();
+//
+//		communityDtos.add(communityDtoFooter);
+//		
+//		if(page == 0) {
+//			return new RespDto<List<CommunityDto>>(HttpStatus.CREATED.value(),"정상",communityDtos);
+//		}
+//
+//		return new RespDto<List<CommunityDto>>(HttpStatus.OK.value(),"정상",communityDtos);
+//	}
 
 	// rankingDto 가져오기 아이디 검색
 	@GetMapping("test/ranking/name/{name}")

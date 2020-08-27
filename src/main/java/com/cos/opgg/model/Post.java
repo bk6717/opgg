@@ -55,6 +55,7 @@ public class Post {
 	private User user;
 	
 	@OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
+	@JsonIgnoreProperties({"post"})
 	private List<Reply> replies;
 	
 	@CreationTimestamp
