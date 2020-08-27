@@ -199,6 +199,7 @@ public class TestController {
 //		return new RespDto<List<CommunityDto>>(HttpStatus.OK.value(),"정상",communityDtos);
 //	}
 
+
 	// rankingDto 가져오기 아이디 검색
 	@GetMapping("test/ranking/name/{name}")
 	public RespDto<?> getRankByName(@PathVariable String name) {

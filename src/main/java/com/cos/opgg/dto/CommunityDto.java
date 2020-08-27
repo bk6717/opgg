@@ -14,7 +14,7 @@ import lombok.ToString;
 @Builder
 @Getter
 @Setter
-@ToString(exclude = "post")
+@ToString
 public class CommunityDto {
 	
 	private int type;
