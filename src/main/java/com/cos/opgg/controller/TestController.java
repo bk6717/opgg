@@ -138,6 +138,7 @@ public class TestController {
 		
 		return new RespDto<CommunityDto>(HttpStatus.OK.value(), "정상" , communityDto);
 	}
+	
 	//글전체 보기
 	@GetMapping("/test/post/{page}")
 	public RespDto<?> testCommuniy(@PathVariable int page) {
