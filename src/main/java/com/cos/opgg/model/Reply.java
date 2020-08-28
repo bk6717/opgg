@@ -10,12 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,8 +31,10 @@ public class Reply {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private int id;
 	
+	@Column(name = "reply")
 	private String reply;
 	
 	@ManyToOne
@@ -41,9 +43,11 @@ public class Reply {
 	
 	@ManyToOne
 	@JoinColumn(name = "postId")
+	@JsonIgnoreProperties({"replies"}) // post안에있는 replies안가져오기
 	private Post post;
 	
 	@CreationTimestamp
+	@Column(name = "createDate")
 	private Timestamp createDate;
 	
 }

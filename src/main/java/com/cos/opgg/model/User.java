@@ -15,9 +15,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 @Entity
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -25,15 +27,29 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private int id;
-	private String username;  
+	
+	@Column(name = "username")
+	private String username;
+	
+	@Column(name = "password")
     private String password;
+	
+	@Column(name = "email")
     private String email;
+	
+	@Column(name = "roles")
     private String roles;
+	
+	@Column(name = "providerId")
     private String providerId;
+	
+	@Column(name = "provider")
     private String provider;
     
     @CreationTimestamp
+    @Column(name = "createDate")
     private Timestamp createDate;
     
 	
