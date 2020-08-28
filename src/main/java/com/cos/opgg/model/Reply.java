@@ -39,11 +39,12 @@ public class Reply {
 	
 	@ManyToOne
 	@JoinColumn(name = "userId")
+	@JsonIgnoreProperties({"password"})
 	private User user;
 	
 	@ManyToOne
 	@JoinColumn(name = "postId")
-	@JsonIgnoreProperties({"replies"}) // post안에있는 replies안가져오기
+	@JsonIgnoreProperties({"replies", "user.password"}) // post안에있는 replies안가져오기
 	private Post post;
 	
 	@CreationTimestamp

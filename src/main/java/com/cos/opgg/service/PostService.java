@@ -65,12 +65,12 @@ public class PostService {
 	//글 상세보기
 	@Transactional
 	public RespDto<?> detail(int id) {
-		Post post = postRepository.findById(id);
+		Post postEntity = postRepository.findById(id);
 		CommunityDto communityDto = CommunityDto.builder()
 				.type(1)
-				.post(post)
+				.post(postEntity)
 				.build();
-		return new RespDto<CommunityDto>(HttpStatus.OK.value(), "정상" , communityDto);
+		return new RespDto<CommunityDto>(HttpStatus.CREATED.value(), "정상" , communityDto);
 	}
 	//글쓰기
 	@Transactional

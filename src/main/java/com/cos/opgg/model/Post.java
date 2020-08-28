@@ -60,6 +60,7 @@ public class Post {
 	
 	@ManyToOne
 	@JoinColumn(name = "userId")
+	@JsonIgnoreProperties({"password"})
 	private User user;
 	
 	@OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
