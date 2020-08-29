@@ -22,6 +22,13 @@ public class JspTestController {
 	@Autowired
 	private ReplyRepository replyRepository;
 	
+	//회원가입
+	@GetMapping("/test/login")
+	public String login() {
+					
+		return "loginTest";
+	}
+	
 	@GetMapping("test/jsp/user")
 	public String testUser(Model model) {
 		

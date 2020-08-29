@@ -50,8 +50,16 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 		// 토큰 검증 (이게 인증이기 때문에 AuthenticationManager도 필요 없음)
 		// 내가 SecurityContext에 집적접근해서 세션을 만들때 자동으로 UserDetailsService에 있는
 		// loadByUsername이 호출됨.
-		String username = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(token)
-				.getClaim("username").asString();
+		String username = null;
+		try {
+			 username = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(token)
+					.getClaim("username").asString();			
+		} catch (Exception e) {
+			System.out.println("토큰에 문제가 있습니다");
+			chain.doFilter(request, response);
+			return;
+		}
+		
 		System.err.println("jwt.JwtAuthorizationFilter.java의 doFilterInternal의 username ="+username);
 		if (username != null) {
 			System.err.println("jwt.JwtAuthorizationFilter.java의 doFilterInternal의 username != null 에 도착");

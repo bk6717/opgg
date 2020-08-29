@@ -9,6 +9,8 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 	
 	 User findByUsername(String username);
 	 
+	 User findByEmail(String email);
+	 
 	 @Query(value = "select UserName from user", nativeQuery = true)
 	 User findUserName();
 	 

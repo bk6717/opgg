@@ -10,8 +10,6 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,6 +32,9 @@ public class User {
 	
 	@Column(name = "username")
 	private String username;
+	
+	@Column(name = "nickname")
+	private String nickname;
 	
 	@Column(name = "password")
     private String password;
