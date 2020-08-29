@@ -1,6 +1,8 @@
 package com.cos.opgg.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cos.opgg.config.auth.PrincipalDetails;
 import com.cos.opgg.dto.RespDto;
 import com.cos.opgg.model.Reply;
 import com.cos.opgg.repository.ReplyRepository;
@@ -32,8 +35,9 @@ public class ReplyController {
 	
 	//댓글 입력
 	@PostMapping("writeProc")
-	public RespDto<?> save(@RequestBody Reply reply){
-		return replyService.replySave(reply);
+	public RespDto<?> save(@RequestBody Reply reply, @AuthenticationPrincipal PrincipalDetails principalDetails){
+			
+		return replyService.replySave(reply, principalDetails);
 	}
 	
 	//댓글 삭제

@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,12 +38,12 @@ public class Reply {
 	@Column(name = "reply")
 	private String reply;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "userId")
 	@JsonIgnoreProperties({"password"})
 	private User user;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "postId")
 	@JsonIgnoreProperties({"replies", "user.password"}) // post안에있는 replies, user의 password 안가져오기
 	private Post post;

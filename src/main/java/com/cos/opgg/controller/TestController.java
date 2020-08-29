@@ -69,7 +69,11 @@ public class TestController {
 				.roles("ROLE_USER")
 				.build();
 		
-		userRepository.save(userRequest);
+		try {
+			userRepository.save(userRequest);			
+		} catch (Exception e) {
+			return new RespDto<String>(HttpStatus.BAD_REQUEST.value(), "이메일이나 닉네임이 중복입니다.", null);
+		}
 					
 		return new RespDto<String>(HttpStatus.OK.value(), "정상", null);
 	}

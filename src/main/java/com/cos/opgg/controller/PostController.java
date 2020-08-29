@@ -2,6 +2,8 @@ package com.cos.opgg.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +32,10 @@ public class PostController {
 	}
 	//글 상세보기
 	@GetMapping("detail/{id}")
-	public RespDto<?> postDetail(@PathVariable int id){
+	public RespDto<?> postDetail(@AuthenticationPrincipal UserDetails userDetails, @PathVariable int id){
+		
+		System.out.println("userDetails : "+userDetails);
+		
 		return postService.detail(id);
 	}
 	

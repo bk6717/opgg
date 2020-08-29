@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -61,6 +62,7 @@ public class Post {
 	
 	@OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
 	@JsonIgnoreProperties({"post"}) // replies안의 post안가져오기
+	@OrderBy("createDate DESC") // 댓글 최신글부터 가져오기
 	private List<Reply> replies;
 	
 	@CreationTimestamp

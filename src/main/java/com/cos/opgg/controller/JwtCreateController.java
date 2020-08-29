@@ -17,6 +17,7 @@ import com.cos.opgg.config.oauth.provider.CommonUser;
 import com.cos.opgg.config.oauth.provider.GoogleUser;
 import com.cos.opgg.config.oauth.provider.OAuthUserInfo;
 import com.cos.opgg.dto.RespDto;
+import com.cos.opgg.dto.TokenDto;
 import com.cos.opgg.model.User;
 import com.cos.opgg.repository.UserRepository;
 
@@ -35,7 +36,7 @@ public class JwtCreateController {
 		System.out.println("여긴 데이터 data = "+data);
 		if(data.get("email") == null || data.get("password") == null) {
 			System.out.println("값이 입력되지 않음");
-			return new RespDto<String>(HttpStatus.BAD_REQUEST.value(), "email이나 password필드가 없습니다.", null);
+			return new RespDto<TokenDto>(HttpStatus.BAD_REQUEST.value(), "email이나 password필드가 없습니다.", null);
 		}
 		CommonUser commonUser =
 				new CommonUser((Map<String, Object>)data);
@@ -47,13 +48,13 @@ public class JwtCreateController {
 		if(userEntity == null) {
 
 			System.out.println("아이디가 없습니다, 회원가입으로 이동");
-			return new RespDto<String>(HttpStatus.UNAUTHORIZED.value(), "해당 아이디가 없습니다.", null);
+			return new RespDto<TokenDto>(HttpStatus.UNAUTHORIZED.value(), "해당 아이디가 없습니다.", null);
 
 		}
 		
 		if(!bCryptPasswordEncoder.matches(commonUser.getPassword(), userEntity.getPassword())) {
 			System.out.println("비번틀림");
-			return new RespDto<String>(HttpStatus.UNAUTHORIZED.value(), "비밀번호가 틀렸습니다.", null);
+			return new RespDto<TokenDto>(HttpStatus.UNAUTHORIZED.value(), "비밀번호가 틀렸습니다.", null);
 		}
 
 		String jwtToken = JWT.create()
@@ -64,7 +65,14 @@ public class JwtCreateController {
 				.sign(Algorithm.HMAC512(JwtProperties.SECRET));
 		System.out.println("controller.JwtCreateController.java의 jwtCreate의 jwtToken = "+jwtToken);
 		System.out.println("정상");
-		return new RespDto<String>(HttpStatus.OK.value(), "정상", jwtToken);
+		
+		TokenDto tokenDto = TokenDto.builder()
+				.userId(userEntity.getId())
+				.nickname(userEntity.getNickname())
+				.jwtToken(jwtToken)
+				.build();
+				
+		return new RespDto<TokenDto>(HttpStatus.OK.value(), "정상", tokenDto);
 	}
 
 	@PostMapping("/oauth/jwt/google")
@@ -116,7 +124,7 @@ public class JwtCreateController {
 
 			User userRequest = User.builder()
 					.username(googleUser.getProvider()+"_"+googleUser.getProviderId())
-					.nickname("opgg_" + UUID.randomUUID())
+					.nickname("opgg_" + UUID.randomUUID().toString().substring(0,13))
 					.password(bCryptPasswordEncoder.encode("겟인데어"))
 					.email(googleUser.getEmail())
 					.provider(googleUser.getProvider())
@@ -136,8 +144,16 @@ public class JwtCreateController {
 				.withClaim("username", userEntity.getUsername())
 				.sign(Algorithm.HMAC512(JwtProperties.SECRET));
 		System.out.println("controller.JwtCreateController.java의 jwtCreate의 jwtToken = "+jwtToken);
-
-		return new RespDto<String>(HttpStatus.OK.value(), "정상", jwtToken);
+		
+		
+		TokenDto tokenDto = TokenDto.builder()
+				.userId(userEntity.getId())
+				.nickname(userEntity.getNickname())
+				.jwtToken(jwtToken)
+				.build();
+				
+		
+		return new RespDto<TokenDto>(HttpStatus.OK.value(), "정상", tokenDto);
 	}
 
 }

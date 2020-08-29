@@ -9,6 +9,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.cos.opgg.model.User;
 
+import lombok.ToString;
+
+@ToString
 public class PrincipalDetails implements UserDetails{
 
 	private User user;

@@ -2,8 +2,10 @@ package com.cos.opgg.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.cos.opgg.config.auth.PrincipalDetails;
 import com.cos.opgg.dto.CommunityDto;
 import com.cos.opgg.dto.RespDto;
 import com.cos.opgg.model.Post;
@@ -11,14 +13,19 @@ import com.cos.opgg.model.Reply;
 import com.cos.opgg.model.User;
 import com.cos.opgg.repository.PostRepository;
 import com.cos.opgg.repository.ReplyRepository;
+import com.cos.opgg.repository.UserRepository;
 
 @Service
 public class ReplyService {
 	@Autowired
-	ReplyRepository replyRepository;
+	UserRepository userRepository;
 	
 	@Autowired
 	PostRepository postRepository;
+	
+	@Autowired
+	ReplyRepository replyRepository;
+	
 	
 	//댓글 수정
 	public RespDto<?> replyUpdate(Reply reply){
@@ -38,10 +45,12 @@ public class ReplyService {
 	}
 	
 	//댓글 입력
-	public RespDto<?> replySave(Reply reply){
+	public RespDto<?> replySave(Reply reply, PrincipalDetails principalDetails){
+		
+		User userEntity = userRepository.findByUsername(principalDetails.getUsername());
 		
 		User authUser = User.builder()
-				.id(1) // jwt토큰으로 확인한 아이디가져오기
+				.id(userEntity.getId()) // jwt토큰으로 확인한 아이디가져오기
 				.build();
 				
 		
