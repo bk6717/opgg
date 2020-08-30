@@ -19,7 +19,7 @@ import com.cos.opgg.repository.ReplyRepository;
 import com.cos.opgg.service.ReplyService;
 
 @RestController
-@RequestMapping("reply")
+@RequestMapping("reply/")
 public class ReplyController {
 
 	@Autowired
@@ -27,22 +27,22 @@ public class ReplyController {
 	@Autowired
 	ReplyRepository replyRepository;
 	
-	//댓글 수정
-	@PutMapping("/updateProc")
-	public RespDto<?> update(@RequestBody Reply reply){
-		return replyService.replyUpdate(reply);
-	}
-	
 	//댓글 입력
 	@PostMapping("writeProc")
-	public RespDto<?> save(@RequestBody Reply reply, @AuthenticationPrincipal PrincipalDetails principalDetails){
-			
-		return replyService.replySave(reply, principalDetails);
+	public RespDto<?> save(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody Reply reply){		
+		return replyService.replySave(principalDetails, reply);
 	}
 	
+	//댓글 수정
+	@PutMapping("updateProc")
+	public RespDto<?> update(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody Reply reply){
+		return replyService.replyUpdate(principalDetails, reply);
+	}
+	
+	
 	//댓글 삭제
-	@DeleteMapping("/delete/{id}")
-	public RespDto<?> Delete(@PathVariable int id){
-		return replyService.replyDelete(id);
+	@DeleteMapping("delete/{id}")
+	public RespDto<?> Delete(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable int id){
+		return replyService.replyDelete(principalDetails, id);
 	}
 }

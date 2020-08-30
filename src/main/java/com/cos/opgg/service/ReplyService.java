@@ -2,8 +2,8 @@ package com.cos.opgg.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cos.opgg.config.auth.PrincipalDetails;
 import com.cos.opgg.dto.CommunityDto;
@@ -28,24 +28,31 @@ public class ReplyService {
 	
 	
 	//댓글 수정
-	public RespDto<?> replyUpdate(Reply reply){
+	@Transactional
+	public RespDto<?> replyUpdate(PrincipalDetails principalDetails, Reply reply){
+		
 		Reply replyEntity = replyRepository.findById(reply.getId());
+		
 		if (replyEntity == null) {
-			//null 처리하기
+			
+			return new RespDto<String>(HttpStatus.BAD_REQUEST.value(), "잘못된 요청입니다." , null);
+			
+		} else if(replyEntity.getUser().getId() != principalDetails.getUser().getId()) {
+			
+			return new RespDto<String>(HttpStatus.BAD_REQUEST.value(), "유저가 일치하지 않습니다." , null);
+
+		} else {
+			
+			replyEntity.setReply(reply.getReply());
+			
+			return new RespDto<String>(HttpStatus.OK.value(), "정상" , null);
 		}
-		Reply replyinput = Reply.builder()
-				.id(replyEntity.getId())
-				.createDate(replyEntity.getCreateDate())
-				.reply(reply.getReply())
-				.post(replyEntity.getPost())
-				.user(replyEntity.getUser())
-				.build();
-		replyEntity = replyRepository.save(replyinput);
-		return new RespDto<String>(HttpStatus.OK.value(), "정상" , null);
+		
 	}
 	
 	//댓글 입력
-	public RespDto<?> replySave(Reply reply, PrincipalDetails principalDetails){
+	@Transactional
+	public RespDto<?> replySave(PrincipalDetails principalDetails, Reply reply){
 		
 		User userEntity = userRepository.findByUsername(principalDetails.getUsername());
 		
@@ -64,6 +71,10 @@ public class ReplyService {
 		
 		Post postEntity = postRepository.findById(replyEntity.getPost().getId());
 		
+		for (Reply reply2: postEntity.getReplies()) {
+			System.out.println(reply2);
+		}
+		
 		CommunityDto communityDto = CommunityDto.builder()
 				.type(1)
 				.post(postEntity)
@@ -73,9 +84,29 @@ public class ReplyService {
 	}
 	
 	//댓글삭제
-	public RespDto<?> replyDelete(int id) {
+	@Transactional
+	public RespDto<?> replyDelete(PrincipalDetails principalDetails, int id) {
+		
+		Reply replyEntity = replyRepository.findById(id);
+		
+		if(replyEntity == null) {
+			
+			return new  RespDto<String>(HttpStatus.BAD_REQUEST.value(), "잘못된 요청입니다." , null);
+			
+		} else if(replyEntity.getUser().getId() != principalDetails.getUser().getId()) {
+			
+			return new  RespDto<String>(HttpStatus.BAD_REQUEST.value(), "유저가 일치하지 않습니다." , null);
+		}
+		
 		replyRepository.deleteById(id);
 		
-		return new  RespDto<String>(HttpStatus.OK.value(), "정상" , null);
+		Post postEntity = postRepository.findById(replyEntity.getPost().getId());
+		
+		CommunityDto communityDto = CommunityDto.builder()
+				.type(1)
+				.post(postEntity)
+				.build();
+		
+		return new  RespDto<CommunityDto>(HttpStatus.OK.value(), "정상" , communityDto);
 	}
 }
