@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,7 +24,7 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = {"user", "post"})
+@ToString(exclude = {"post"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -37,13 +38,14 @@ public class Reply {
 	@Column(name = "reply")
 	private String reply;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "userId")
+	@JsonIgnoreProperties({"password"})
 	private User user;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "postId")
-	@JsonIgnoreProperties({"replies"}) // post안에있는 replies안가져오기
+	@JsonIgnoreProperties({"replies", "user.password"}) // post안에있는 replies, user의 password 안가져오기
 	private Post post;
 	
 	@CreationTimestamp

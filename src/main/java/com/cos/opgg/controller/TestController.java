@@ -2,6 +2,7 @@ package com.cos.opgg.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +36,8 @@ import com.cos.opgg.service.PostService;
 public class TestController {
 	
 	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Autowired
 	PostService postService;
 	@Autowired
 	UserRepository userRepository;
@@ -44,17 +48,36 @@ public class TestController {
 	@Autowired
 	ReplyRepository replyRepostory;
 	@Autowired
-	ApiService apiService;
+	ApiService apiService;	
 	
 	
 
 	//회원가입
 	@PostMapping("/test/join")
-	public String join(@RequestBody User user) {
+	public RespDto<?> join(@RequestBody Map<String, Object> data) {
 		
-		userRepository.save(user);
+		if(data.get("nickname") == null || data.get("password") == null || data.get("email") == null) {
+			System.out.println("값이 입력되지 않음");
+			return new RespDto<String>(HttpStatus.BAD_REQUEST.value(), "nickname이나 email이나 password필드가 없습니다.", null);
+		}
+		
+		User userRequest = User.builder()
+				.username("common_" +(String)data.get("email"))
+				.nickname((String)data.get("nickname"))
+				.password(bCryptPasswordEncoder.encode((String)data.get("password")))
+				.email((String)data.get("email"))
+				.provider("common")
+				.providerId((String)data.get("email"))
+				.roles("ROLE_USER")
+				.build();
+		
+		try {
+			userRepository.save(userRequest);			
+		} catch (Exception e) {
+			return new RespDto<String>(HttpStatus.BAD_REQUEST.value(), "이메일이나 닉네임이 중복입니다.", null);
+		}
 					
-		return "회원가입 완료";
+		return new RespDto<String>(HttpStatus.OK.value(), "정상", null);
 	}
 	
 	

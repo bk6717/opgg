@@ -43,12 +43,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.addFilter(new JwtAuthenticationFilter(authenticationManager()))
 				.addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))
 				.authorizeRequests()
+
 //				.antMatchers("/user/**")
 //				.access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
 //				.antMatchers("/manager/**")
 //					.access("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
 //				.antMatchers("/admin/**")
 //					.access("hasRole('ROLE_ADMIN')")
+
+				.antMatchers("/post/writeProc").authenticated()
+				.antMatchers("/post/update").authenticated()
+				.antMatchers("/post/delete/**").authenticated()
+				.antMatchers("/reply/writeProc").authenticated()
+				.antMatchers("/reply/updateProc").authenticated()
+				.antMatchers("/reply/delete/**").authenticated()
+				.antMatchers("/user/**")
+					.access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+				.antMatchers("/manager/**")
+					.access("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+				.antMatchers("/admin/**")
+					.access("hasRole('ROLE_ADMIN')")
 				.anyRequest().permitAll();
 		///흠.,....
 	}

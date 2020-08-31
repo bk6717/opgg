@@ -2,6 +2,8 @@ package com.cos.opgg.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cos.opgg.config.auth.PrincipalDetails;
+import com.cos.opgg.dto.CommunityDto;
 import com.cos.opgg.dto.RespDto;
 import com.cos.opgg.model.Post;
 import com.cos.opgg.service.PostService;
@@ -31,28 +35,43 @@ public class PostController {
 	//글 상세보기
 	@GetMapping("detail/{id}")
 	public RespDto<?> postDetail(@PathVariable int id){
+		
 		return postService.detail(id);
 	}
 	
 	//글 등록 
-	@PostMapping("/writeProc")
-	public RespDto<?> writeProc(@RequestBody Post post){
-		postService.write(post);
-		return new RespDto<String>(HttpStatus.OK. value(), "정상" , null); 
+	@PostMapping("writeProc")
+	public RespDto<?> writeProc(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody Post post){
+		
+		 return postService.write(principalDetails, post);
 	}
 	
 	//글 수정
-	@PutMapping("/update")
-	public RespDto<?> updateTitleAndContent(@RequestBody Post post){
-		postService.updateTitleAndContent(post);
-		return new RespDto<String>(HttpStatus.OK. value(), "정상" , null); 
+	@PutMapping("update")
+	public RespDto<?> updateTitleAndContent(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody Post post){
+		
+		return postService.updateTitleAndContent(principalDetails, post);
 	}
 	
 	//글삭제//////////////////////나중에 바꿔야함 
-	@DeleteMapping("/delete/{id}")
-	public RespDto<?> deleteById(@PathVariable int id){
-		postService.deleteById(id);
-		return new RespDto<String>(HttpStatus.OK. value(), "정상" , null);
+	@DeleteMapping("delete/{postId}")
+	public RespDto<?> deleteById(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable int postId){
+		
+		return postService.deleteById(principalDetails, postId);
+	}
+	
+	//글 뷰카운트 올리기
+	@PutMapping("update/view/{postId}")
+	public RespDto<?> updateViewCount(@PathVariable int postId){
+		
+		return postService.updateViewCount(postId);
+	}
+	
+	//글 좋아요 올리기
+	@PutMapping("update/like/{postId}")
+	public RespDto<?> updateLikeCount(@PathVariable int postId){
+		
+		return postService.updateLikeCount(postId);
 	}
 	
 	
