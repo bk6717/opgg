@@ -127,21 +127,16 @@ public class PostService {
 		}
 		
 		if(result == -1) {
-			
-			CommunityDto communityDto = new CommunityDto();
-			return new RespDto<CommunityDto>(HttpStatus.BAD_REQUEST.value(), "유저정보가 일치하지 않습니다." ,communityDto);
+			return new RespDto<String>(HttpStatus.BAD_REQUEST.value(), "유저정보가 일치하지 않습니다." ,null);
 			
 		} else if(result == -2) {
-			
-			CommunityDto communityDto = new CommunityDto();
-			return new RespDto<CommunityDto>(HttpStatus.BAD_REQUEST.value(), "게시글이 존재하지 않습니다." ,communityDto);
+			return new RespDto<String>(HttpStatus.BAD_REQUEST.value(), "게시글이 존재하지 않습니다." ,null);
 			
 		} else if (result == 1) {
-			CommunityDto communityDto = new CommunityDto();
-			return new RespDto<CommunityDto>(HttpStatus.NO_CONTENT.value(), "정상" , communityDto);
+			return new RespDto<String>(HttpStatus.NO_CONTENT.value(), "정상" , null);
 		}
 		
-		return new RespDto<CommunityDto>(HttpStatus.NO_CONTENT.value(), "삭제에 실패했습니다." , null);
+		return new RespDto<String>(HttpStatus.NO_CONTENT.value(), "삭제에 실패했습니다." , null);
 		
 	}
 }

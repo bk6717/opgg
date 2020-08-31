@@ -69,18 +69,9 @@ public class ReplyService {
 		
 		Reply replyEntity = replyRepository.save(authReply);
 		
-		Post postEntity = postRepository.findById(replyEntity.getPost().getId());
-		
-		for (Reply reply2: postEntity.getReplies()) {
-			System.out.println(reply2);
-		}
-		
-		CommunityDto communityDto = CommunityDto.builder()
-				.type(1)
-				.post(postEntity)
-				.build();
-		
-		return new RespDto<CommunityDto>(HttpStatus.OK.value(), "정상" , communityDto);
+		String postId = String.valueOf(replyEntity.getPost().getId());
+
+		return new RespDto<String>(HttpStatus.OK.value(), "정상" , postId);
 	}
 	
 	//댓글삭제
@@ -98,15 +89,10 @@ public class ReplyService {
 			return new  RespDto<String>(HttpStatus.BAD_REQUEST.value(), "유저가 일치하지 않습니다." , null);
 		}
 		
+		String postId = String.valueOf(replyEntity.getPost().getId());
+		
 		replyRepository.deleteById(id);
 		
-		Post postEntity = postRepository.findById(replyEntity.getPost().getId());
-		
-		CommunityDto communityDto = CommunityDto.builder()
-				.type(1)
-				.post(postEntity)
-				.build();
-		
-		return new  RespDto<CommunityDto>(HttpStatus.OK.value(), "정상" , communityDto);
+		return new  RespDto<String>(HttpStatus.OK.value(), "정상" , postId);
 	}
 }
