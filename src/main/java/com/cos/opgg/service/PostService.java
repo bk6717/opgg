@@ -25,7 +25,7 @@ public class PostService {
 	PostRepository postRepository;
 	
 	//글전체보기 (페이지 처리)
-	@Transactional
+	@Transactional(readOnly = true)
 	public RespDto<?> findAll(int page){
 		PageRequest pageRequest = PageRequest.of(page, 40, Sort.by(Direction.DESC, "id"));
 
@@ -64,7 +64,7 @@ public class PostService {
 	}
 	
 	//글 상세보기
-	@Transactional
+	@Transactional(readOnly = true)
 	public RespDto<?> detail(int id) {
 		Post postEntity = postRepository.findById(id);
 		CommunityDto communityDto = CommunityDto.builder()
