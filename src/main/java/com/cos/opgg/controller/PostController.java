@@ -1,5 +1,7 @@
 package com.cos.opgg.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -32,6 +34,16 @@ public class PostController {
 		
 		return postService.findAll(page);
 	}
+	
+	//글 전체보기
+	@GetMapping("find/{content}")
+	public RespDto<?> findByContent(@PathVariable String content){
+		
+		System.out.println(content);
+		
+		return postService.findByContent(content);
+	}
+	
 	//글 상세보기
 	@GetMapping("detail/{id}")
 	public RespDto<?> postDetail(@PathVariable int id){
