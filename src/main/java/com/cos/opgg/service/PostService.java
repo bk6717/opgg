@@ -27,7 +27,7 @@ public class PostService {
 	//글전체보기 (페이지 처리)
 	@Transactional(readOnly = true)
 	public RespDto<?> findAll(int page){
-		PageRequest pageRequest = PageRequest.of(page, 40, Sort.by(Direction.DESC, "id"));
+		PageRequest pageRequest = PageRequest.of(page, 10, Sort.by(Direction.DESC, "id"));
 
 		Page<Post> pagePost = postRepository.findAll(pageRequest);
 		List<Post> posts = pagePost.getContent();
