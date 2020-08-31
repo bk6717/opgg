@@ -3,6 +3,7 @@ package com.cos.opgg.model;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -60,7 +61,7 @@ public class Post {
 	@JsonIgnoreProperties({"password"})
 	private User user;
 	
-	@OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties({"post"}) // replies안의 post안가져오기
 	@OrderBy("createDate DESC") // 댓글 최신글부터 가져오기
 	private List<Reply> replies;

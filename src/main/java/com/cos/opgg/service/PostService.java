@@ -43,7 +43,7 @@ public class PostService {
 
 		}
 		
-		if(posts.size() < 40) {
+		if(posts.size() < 10) {
 			
 			CommunityDto communityDtoFooter = CommunityDto.builder().type(2).build();
 
