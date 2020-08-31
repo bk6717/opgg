@@ -61,14 +61,14 @@ public class PostController {
 	}
 	
 	//글 뷰카운트 올리기
-	@PutMapping("updateViewCount/{postId}")
+	@PutMapping("update/view/{postId}")
 	public RespDto<?> updateViewCount(@PathVariable int postId){
 		
 		return postService.updateViewCount(postId);
 	}
 	
 	//글 좋아요 올리기
-	@PutMapping("updateLikeCount/{postId}")
+	@PutMapping("update/like/{postId}")
 	public RespDto<?> updateLikeCount(@PathVariable int postId){
 		
 		return postService.updateLikeCount(postId);
