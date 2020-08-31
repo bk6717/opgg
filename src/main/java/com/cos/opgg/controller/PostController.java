@@ -60,6 +60,20 @@ public class PostController {
 		return postService.deleteById(principalDetails, postId);
 	}
 	
+	//글 뷰카운트 올리기
+	@PutMapping("updateViewCount/{postId}")
+	public RespDto<?> updateViewCount(@PathVariable int postId){
+		
+		return postService.updateViewCount(postId);
+	}
+	
+	//글 좋아요 올리기
+	@PutMapping("updateLikeCount/{postId}")
+	public RespDto<?> updateLikeCount(@PathVariable int postId){
+		
+		return postService.updateLikeCount(postId);
+	}
+	
 	
 }
  

@@ -139,4 +139,36 @@ public class PostService {
 		return new RespDto<String>(HttpStatus.NO_CONTENT.value(), "삭제에 실패했습니다." , null);
 		
 	}
+	
+	//글 뷰카운트 올리기
+	@Transactional
+	public RespDto<?> updateViewCount(int postId) {
+
+		Post postEntity = postRepository.findById(postId);
+		
+		if(postEntity == null) {
+			return new RespDto<String>(HttpStatus.BAD_REQUEST.value(), "잘못된 요청입니다." , null); 
+		}
+		
+		postEntity.setViewCount(postEntity.getViewCount()+1);
+	
+		return new RespDto<String>(HttpStatus.OK.value(), "정상" , null); 
+
+	}
+	
+	//글 좋아요 올리기
+	@Transactional
+	public RespDto<?> updateLikeCount(int postId) {
+
+		Post postEntity = postRepository.findById(postId);
+		
+		if(postEntity == null) {
+			return new RespDto<String>(HttpStatus.BAD_REQUEST.value(), "잘못된 요청입니다." , null); 
+		}
+		
+		postEntity.setLikeCount(postEntity.getLikeCount()+1);
+	
+		return new RespDto<String>(HttpStatus.OK.value(), "정상" , null); 
+
+	}
 }
