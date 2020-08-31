@@ -19,7 +19,7 @@ public interface PostRepository extends JpaRepository<Post, Integer>{
 	
 	
 	@Query(value = "SELECT * FROM post WHERE title LIKE %?1% OR content LIKE %?1%", nativeQuery = true)
-	List<Post> search(String content);
+	List<Post> findByContent(String content);
 	
 //	@Query(value = "SELECT * FROM post ORDER BY createDate DESC LIMIT 40", nativeQuery = true)
 //	Page<Post>  postTest(Pageable pageable);

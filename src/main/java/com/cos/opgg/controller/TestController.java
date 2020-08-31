@@ -46,6 +46,8 @@ public class TestController {
 	@Autowired
 	ApiService apiService;
 	
+	
+
 	//회원가입
 	@PostMapping("/test/join")
 	public String join(@RequestBody User user) {
