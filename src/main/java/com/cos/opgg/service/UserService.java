@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cos.opgg.config.handler.exception.MyJoinException;
 import com.cos.opgg.dto.RespDto;
 import com.cos.opgg.model.User;
 import com.cos.opgg.repository.UserRepository;
@@ -28,6 +29,12 @@ public class UserService {
 			return new RespDto<String>(HttpStatus.BAD_REQUEST.value(), "nickname이나 email이나 password필드가 없습니다.", null);
 		}
 		
+		User userEntity = userRepository.findByEmail((String)data.get("email"));
+		
+		if(userEntity != null) {
+			return new RespDto<String>(HttpStatus.BAD_REQUEST.value(), "해당 이메일로 이미 가입되어 있습니다.", null);
+		}
+		
 		User userRequest = User.builder()
 				.username("common_" +(String)data.get("email"))
 				.nickname((String)data.get("nickname"))
@@ -38,10 +45,11 @@ public class UserService {
 				.roles("ROLE_USER")
 				.build();
 		
+		
 		try {
 			userRepository.save(userRequest);			
 		} catch (Exception e) {
-			return new RespDto<String>(HttpStatus.BAD_REQUEST.value(), "이메일이나 닉네임이 중복입니다.", null);
+			throw new MyJoinException();
 		}
 					
 		return new RespDto<String>(HttpStatus.OK.value(), "정상", null);

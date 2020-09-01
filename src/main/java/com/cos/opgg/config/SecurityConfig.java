@@ -50,32 +50,42 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.addFilter(new JwtAuthenticationFilter(authenticationManager()))
 				.addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))
 				// 인증이 필요한 페이지
-				.authorizeRequests().antMatchers("/post/writeProc").authenticated().antMatchers("/post/update")
-				.authenticated().antMatchers("/post/delete/**").authenticated().antMatchers("/reply/writeProc")
-				.authenticated().antMatchers("/reply/updateProc").authenticated().antMatchers("/reply/delete/**")
+				.authorizeRequests()
+				.antMatchers("/post/writeProc")
+				.authenticated().antMatchers("/post/update")
+				.authenticated().antMatchers("/post/delete/**")
+				.authenticated().antMatchers("/reply/writeProc")
+				.authenticated().antMatchers("/reply/updateProc")
+				.authenticated().antMatchers("/reply/delete/**")
 				.authenticated()
 				// 인가가 필요한 페이지
 				// 관리자는 쿠키로 jwt를 전송하여 인가
 				.antMatchers("/user/**")
 				.access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-				.antMatchers("/manager/**").access("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-				.antMatchers("/admin/user/**").access("hasRole('ROLE_ADMIN')").antMatchers("/admin/reply/**")
-				.access("hasRole('ROLE_ADMIN')").antMatchers("/admin/post/**").access("hasRole('ROLE_ADMIN')")
+				.antMatchers("/manager/**")
+				.access("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+				.antMatchers("/admin/user/**")
+				.access("hasRole('ROLE_ADMIN')")
+				.antMatchers("/admin/reply/**")
+				.access("hasRole('ROLE_ADMIN')")
+				.antMatchers("/admin/post/**")
+				.access("hasRole('ROLE_ADMIN')")
 				// 나머지는 허용
 				.anyRequest().permitAll();
 
-		http.exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPoint() {
-			@Override
-			public void commence(HttpServletRequest request, HttpServletResponse response,
-					AuthenticationException authException) throws IOException, ServletException {
-				response.sendRedirect("/admin/login");
-			}
-		}).accessDeniedHandler(new AccessDeniedHandler() {
-			@Override
-			public void handle(HttpServletRequest request, HttpServletResponse response,
-					AccessDeniedException accessDeniedException) throws IOException, ServletException {
-				response.sendRedirect("/admin/login");
-			}
-		});
+//		http.exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPoint() {
+//			@Override
+//			public void commence(HttpServletRequest request, HttpServletResponse response,
+//					AuthenticationException authException) throws IOException, ServletException {
+//				response.sendRedirect("/admin/login");
+//			}
+//		}).accessDeniedHandler(new AccessDeniedHandler() {
+//			@Override
+//			public void handle(HttpServletRequest request, HttpServletResponse response,
+//					AccessDeniedException accessDeniedException) throws IOException, ServletException {
+//				response.sendRedirect("/admin/login");
+//			}
+//		});
+		
 	}
 }

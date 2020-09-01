@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cos.opgg.config.auth.PrincipalDetails;
+import com.cos.opgg.config.handler.exception.MyPostWriteException;
 import com.cos.opgg.dto.CommunityDto;
 import com.cos.opgg.dto.RespDto;
 import com.cos.opgg.model.Post;
@@ -99,7 +100,13 @@ public class PostService {
 
 		post.setUser(principalDetails.getUser());
 
-		Post postEntity = postRepository.save(post);
+		Post postEntity = null;
+		
+		try {
+			postEntity = postRepository.save(post);			
+		} catch (Exception e) {
+			throw new MyPostWriteException();
+		}
 
 		if (postEntity == null) {
 			return new RespDto<String>(HttpStatus.BAD_REQUEST.value(), "에러가 발생하였습니다.", null);

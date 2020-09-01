@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.cos.opgg.config.auth.PrincipalDetails;
+import com.cos.opgg.config.handler.exception.MyJwtErrorException;
 import com.cos.opgg.model.User;
 import com.cos.opgg.repository.UserRepository;
 
@@ -75,11 +76,12 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 		String username = null;
 		try {
 			 username = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(token)
-					.getClaim("username").asString();			
-		} catch (Exception e) {
+					.getClaim("username").asString();
+		} catch (Exception e){
 			System.out.println("토큰에 문제가 있습니다");
-			chain.doFilter(request, response);
-			return;
+			throw new MyJwtErrorException();
+//			chain.doFilter(request, response);
+//			return;
 		}
 		
 		System.err.println("jwt.JwtAuthorizationFilter.java의 doFilterInternal의 username ="+username);
