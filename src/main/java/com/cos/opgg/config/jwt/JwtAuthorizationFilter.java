@@ -44,13 +44,16 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 			System.out.println("헤더에 토큰이 없거나 토큰 베리어가 없습니다.");
 			
 			// 토큰이 없을 경우 쿠키에서 찾아본다
-			for (Cookie cookie : request.getCookies()) {
-				if(cookie.getName().equals("jwtToken")) {
-					token = cookie.getValue();
-					System.out.println("쿠키에서 토큰을 받았습니다.");
-				}
+			if(request.getCookies() != null) {
+				
+				for (Cookie cookie : request.getCookies()) {
+					if(cookie.getName().equals("jwtToken")) {
+						token = cookie.getValue();
+						System.out.println("쿠키에서 토큰을 받았습니다.");
+					}
+				}			
+				
 			}
-			
 			// 쿠키에서도 없을 경우 필터를 끝낸다
 			if(token == null) {
 				System.err.println("jwt.JwtAuthorizationFilter.java의 doFilterInternal의 header == null에 도착 ");
