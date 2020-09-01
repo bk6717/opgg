@@ -17,11 +17,9 @@ import com.cos.opgg.repository.UserRepository;
 
 @Service
 public class ReplyService {
-	@Autowired
-	UserRepository userRepository;
 	
 	@Autowired
-	PostRepository postRepository;
+	UserRepository userRepository;
 	
 	@Autowired
 	ReplyRepository replyRepository;

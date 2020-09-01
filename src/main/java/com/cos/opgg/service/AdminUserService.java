@@ -19,6 +19,5 @@ public class AdminUserService {
 	public void updateRole(Map<String, String> roles, int id) {
 		User userEntity = userRepository.findById(id).get();
 		userEntity.setRoles(roles.get("role"));
-		
 	}
 }

@@ -41,7 +41,7 @@ public class AdminUserController {
 	@PostMapping("user/search")
 	public @ResponseBody List<User> search(@RequestBody Map<String, String> data) {
 		
-		return userRepository.search(data.get("email"));
+		return userRepository.mFindByEmail(data.get("email"));
 	}
 	
 	//유저 권한변경

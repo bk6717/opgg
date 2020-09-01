@@ -7,8 +7,6 @@ import com.cos.opgg.api.model.SummonerModel;
 
 public interface SummonerRepository extends JpaRepository<SummonerModel, Integer>{
 	
-//	SummonerModel save(SummonerModel summonerModel);
-	
 	@Query(value = "SELECT * FROM summonermodel WHERE LOWER(REPLACE(name,' ', '')) LIKE ?1", nativeQuery = true)
 	SummonerModel findByName(String name);
 	

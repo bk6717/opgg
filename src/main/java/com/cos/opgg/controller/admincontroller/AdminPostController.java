@@ -39,7 +39,6 @@ public class AdminPostController {
 		
 		model.addAttribute("posts", postRepository.findAll());
 		
-		
 		return "adminPost";
 	}
 	
@@ -47,7 +46,6 @@ public class AdminPostController {
 	@DeleteMapping("/delete/{id}")
 	public @ResponseBody String deletePost(@PathVariable int id ) {
 		
-		System.out.println("id "+ id );
 		postRepository.deleteById(id);
 		
 		return "성공";

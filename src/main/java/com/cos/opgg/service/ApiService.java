@@ -123,7 +123,7 @@ public class ApiService {
 //
 //				ApiSummoner apiSummoner = getApiSummoner(tempName, getApikey());
 //				try {
-//					Thread.sleep(1210);
+//					Thread.sleep(211);
 //				} catch (InterruptedException e) {
 //					e.printStackTrace();
 //				}
@@ -190,7 +190,7 @@ public class ApiService {
 //
 //				ApiSummoner apiSummoner = getApiSummoner(tempName, getApikey());
 //				try {
-//					Thread.sleep(1210);
+//					Thread.sleep(211);
 //				} catch (InterruptedException e) {
 //					e.printStackTrace();
 //				}
@@ -289,7 +289,7 @@ public class ApiService {
 			// api서버에 소환사 아이디가 있는지 확인하고 없으면 업데이트
 			apiSummoner = getApiSummoner(tempName, getApikey());
 			try {
-				Thread.sleep(1210);
+				Thread.sleep(211);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -311,7 +311,7 @@ public class ApiService {
 			// api서버에 소환사 아이디가 있는지 확인하고 있으면 저장
 			List<ApiEntry> apiEntries = getApiEntries(summonerEntity.getSummonerId(), getApikey());
 			try {
-				Thread.sleep(1210);
+				Thread.sleep(211);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -380,7 +380,7 @@ public class ApiService {
 			// api서버에서 확인하고 있으면 db저장
 			ApiMatchEntry apiMatchEntry = getApiMatchEntry(getApiMatchEntryDto, getApikey());
 			try {
-				Thread.sleep(1210);
+				Thread.sleep(211);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -411,7 +411,7 @@ public class ApiService {
 				// 매치아이디로 경기 가져와서 db저장
 				ApiMatch apiMatch = getApiMatch(match.getGameId(), getApikey());
 				try {
-					Thread.sleep(1210);
+					Thread.sleep(211);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -455,7 +455,7 @@ public class ApiService {
 			// 소환사 정보
 
 			ApiSummoner apiSummoner = getApiSummoner(tempName, apiKey);
-			Thread.sleep(1210);
+			Thread.sleep(211);
 
 			if (apiSummoner == null) {
 				return false;
@@ -463,7 +463,7 @@ public class ApiService {
 
 			// 엔트리
 			List<ApiEntry> apiEntries = getApiEntries(apiSummoner.getId(), apiKey);
-			Thread.sleep(1210);
+			Thread.sleep(211);
 
 			if (apiEntries == null || apiEntries.size() == 0) {
 				return false;
@@ -475,7 +475,7 @@ public class ApiService {
 
 			// 경기리스트
 			ApiMatchEntry apiMatchEntry = getApiMatchEntry(getApiMatchEntryDto, apiKey);
-			Thread.sleep(1210);
+			Thread.sleep(211);
 
 			if (apiMatchEntry == null) {
 				return false;
@@ -500,7 +500,7 @@ public class ApiService {
 				countMatch++;
 
 				ApiMatch apiMatch = getApiMatch(match.getGameId(), apiKey);
-				Thread.sleep(1210);
+				Thread.sleep(211);
 
 				if (apiMatch == null) {
 					return false;
@@ -1039,7 +1039,7 @@ public class ApiService {
 
 			Gson gson = new Gson();
 			ApiRanking apiRanking = gson.fromJson(sb.toString(), ApiRanking.class);
-			Thread.sleep(1210);
+			Thread.sleep(211);
 
 			if (apiRanking == null) {
 				return;
@@ -1103,7 +1103,7 @@ public class ApiService {
 
 			Gson gson = new Gson();
 			ApiRanking apiRanking = gson.fromJson(sb.toString(), ApiRanking.class);
-			Thread.sleep(1210);
+			Thread.sleep(211);
 
 			if (apiRanking == null) {
 				return;
@@ -1140,7 +1140,7 @@ public class ApiService {
 
 		} catch (Exception e) {
 			try {
-				Thread.sleep(1210);
+				Thread.sleep(211);
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
@@ -1173,7 +1173,7 @@ public class ApiService {
 
 			Gson gson = new Gson();
 			ApiRanking apiRanking = gson.fromJson(sb.toString(), ApiRanking.class);
-			Thread.sleep(1210);
+			Thread.sleep(211);
 
 			if (apiRanking == null) {
 				return;
@@ -1209,7 +1209,7 @@ public class ApiService {
 
 		} catch (Exception e) {
 			try {
-				Thread.sleep(1210);
+				Thread.sleep(211);
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
@@ -1257,7 +1257,7 @@ public class ApiService {
 					break;
 				}
 
-				Thread.sleep(1210);
+				Thread.sleep(211);
 
 				if (entries == null) {
 					return;
@@ -1268,7 +1268,7 @@ public class ApiService {
 
 			} catch (Exception e) {
 				try {
-					Thread.sleep(1210);
+					Thread.sleep(211);
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
