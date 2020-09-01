@@ -28,7 +28,7 @@
 
 <form>
   <div class="input-group">
-    <input  type="text" class="form-control" id ="search" placeholder="게시글 제목을 입력해주세요">
+    <input  type="text" class="form-control" id ="search" placeholder="게시글 제목이나 내용을 입력해주세요">
     <div class="input-group-btn">
       <button class="btn btn-default btn-search" type="button">
       	검색

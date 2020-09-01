@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,18 +35,36 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		System.err.println("jwt.JwtAuthorizationFilter.java의 doFilterInternal에 왔습니다");
-		String header = request.getHeader(JwtProperties.HEADER_STRING);
-		System.err.println("jwt.JwtAuthorizationFilter.java의 doFilterInternal의 header= " + header);
+		String tokenHeader = request.getHeader(JwtProperties.HEADER_STRING);
+		System.err.println("jwt.JwtAuthorizationFilter.java의 doFilterInternal의 header= " + tokenHeader);
 
-		if (header == null || !header.startsWith(JwtProperties.TOKEN_PREFIX)) {
-			System.err.println("jwt.JwtAuthorizationFilter.java의 doFilterInternal의 header == null에 도착 ");
-			chain.doFilter(request, response);
-			System.err.println("---------------------終わりました---------------------------");
-			return;
+		String token = null;
+		
+		if (tokenHeader == null || !tokenHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
+			System.out.println("헤더에 토큰이 없거나 토큰 베리어가 없습니다.");
+			
+			// 토큰이 없을 경우 쿠키에서 찾아본다
+			for (Cookie cookie : request.getCookies()) {
+				if(cookie.getName().equals("jwtToken")) {
+					token = cookie.getValue();
+					System.out.println("쿠키에서 토큰을 받았습니다.");
+				}
+			}
+			
+			// 쿠키에서도 없을 경우 필터를 끝낸다
+			if(token == null) {
+				System.err.println("jwt.JwtAuthorizationFilter.java의 doFilterInternal의 header == null에 도착 ");
+				System.err.println("---------------------終わりました---------------------------");
+				chain.doFilter(request, response);
+				return;
+			}
 
+		} else {
+			// 헤더에 토큰이 있으면 헤더에서 추가
+			token = request.getHeader(JwtProperties.HEADER_STRING).replace(JwtProperties.TOKEN_PREFIX, "");						
 		}
+		
 
-		String token = request.getHeader(JwtProperties.HEADER_STRING).replace(JwtProperties.TOKEN_PREFIX, "");
 		System.err.println("jwt.JwtAuthorizationFilter.java의 doFilterInternal의 token ="+token);
 		// 토큰 검증 (이게 인증이기 때문에 AuthenticationManager도 필요 없음)
 		// 내가 SecurityContext에 집적접근해서 세션을 만들때 자동으로 UserDetailsService에 있는

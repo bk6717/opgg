@@ -30,6 +30,7 @@ public class AdminPostController {
 	public @ResponseBody List<Post> search(@RequestBody Map<String, String> data) {
 		
 		return postRepository.findByContent(data.get("title"));
+		
 	}
 	
     //게시글 메인

@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +36,7 @@ public class JwtCreateController {
 
 	// 일반로그인
 	@PostMapping("jwt/common")
-	public RespDto<?> commonlogin(@RequestBody Map<String, Object> data) {
+	public RespDto<?> commonlogin(@RequestBody Map<String, Object> data, HttpServletResponse response) {
 		System.out.println("controller.JwtCreateController.java의 jwtCreate에 왔습니다 ");
 		System.out.println("여긴 데이터 data = "+data);
 		if(data.get("email") == null || data.get("password") == null) {
@@ -73,9 +76,22 @@ public class JwtCreateController {
 				.nickname(userEntity.getNickname())
 				.jwtToken(jwtToken)
 				.build();
+		
+		// 어드민일 경우 쿠키에 담는다 (jsp 페이지 이기 때문)
+		if(userEntity.getRoles().equals("ROLE_ADMIN")) {
+			
+			Cookie cookie = new Cookie("jwtToken", tokenDto.getJwtToken());
+			cookie.setMaxAge(600);
+			cookie.setHttpOnly(true);
+			cookie.setPath("/");
+			response.addCookie(cookie);
+			System.out.println("쿠키에 토큰을 담았습니다.");
+			
+		}
 				
 		return new RespDto<TokenDto>(HttpStatus.OK.value(), "정상", tokenDto);
 	}
+	
 
 	// 구글 카카오
 	@PostMapping("jwt/oauth")
