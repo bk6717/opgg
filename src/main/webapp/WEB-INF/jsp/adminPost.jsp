@@ -25,6 +25,18 @@
   </ul>
 </div>
 <div class="container">
+
+<form>
+  <div class="input-group">
+    <input  type="text" class="form-control" id ="search" placeholder="게시글 제목을 입력해주세요">
+    <div class="input-group-btn">
+      <button class="btn btn-default btn-search" type="button">
+      	검색
+      </button>
+    </div>
+  </div>
+</form>
+
   <table class="table">
     <thead>
   
@@ -37,8 +49,9 @@
         <th>게시글 삭제 </th> 
       </tr>
     </thead>
+     <tbody id ="tbody">
      <c:forEach var="post" items = "${posts}">
-    <tbody>
+   
       <tr>
     
         <td>${post.title}</td>
@@ -47,16 +60,75 @@
         <td>${post.createDate }</td>
         <td><button class="${post.id } btn btn-danger btn-delete">삭제</button></td>
       </tr>
-    </tbody>
+   
     </c:forEach>
+     </tbody>
   </table>
 </div>
 </body>
 <script>
 let index = {
 		init : function() {
+			
 			$(".btn-delete").on("click", ()=>{
 				this.deleteById();
+			});
+			
+			$(".form-control").on("keypress",()=>{
+				if(event.keyCode == 13){
+					this.searchUser();
+					return false;
+				}
+			});
+				
+			$(".btn-search").on("click",()=>{
+				this.searchUser();
+			});	
+		
+		},
+		
+		searchUser: function(){
+			console.log(event.target);
+			
+			let data = {
+			 title : $("#search").val()
+			}
+			
+			
+			
+			$.ajax({
+				
+				type : "post",
+				data: JSON.stringify(data),
+				contentType: "application/json; charset=utf-8",
+				url : "/admin/post/search",
+				dataType : "json"
+				
+			}).done(function(result){
+				$("#tbody").empty();
+				
+				for(var post of result){
+					
+					var post = 	" <tr>\r\n" + 
+					"    \r\n" + 
+					"        <td>"+post.title+"</td>\r\n" + 
+					"        <td>"+post.content+"</td>\r\n" + 
+					"        <td>"+post.user.username+"</td>\r\n" + 
+					"        <td>"+post.createDate+"</td>\r\n" + 
+					"        <td><button class=\""+post.id+"btn btn-danger btn-delete\">삭제</button></td>\r\n" + 
+					"      </tr>\r\n" + 
+					"   ";
+					
+					$("#tbody").append(post);
+					
+				}
+			
+			
+				
+				console.log(result);
+		
+			}).fail((error)=>{
+				console.log(error);
 			});
 		},
 		

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.cos.opgg.model.Post;
+import com.cos.opgg.model.User;
 
 public interface PostRepository extends JpaRepository<Post, Integer>{
 	
@@ -21,5 +22,10 @@ public interface PostRepository extends JpaRepository<Post, Integer>{
 	
 //	@Query(value = "SELECT * FROM post ORDER BY createDate DESC LIMIT 40", nativeQuery = true)
 //	Page<Post>  postTest(Pageable pageable);
+	
+	 //게시글 검색기능
+	 @Query(value =" select * from post where title like %?1%", nativeQuery = true)
+	 List<Post> search(String title);
+	
 	
 }

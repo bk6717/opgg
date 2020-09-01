@@ -306,7 +306,7 @@ public class TestController {
 	// 커뮤니티 글 검색
 	@GetMapping("/test/post/search/{content}")
 	public List<Post> seach(@PathVariable(name = "content") String content) {
-		List<Post> post = postRepository.search(content);
+		List<Post> post = postRepository.findByContent(content);
 		System.out.println(post);
 		return post;
 	}

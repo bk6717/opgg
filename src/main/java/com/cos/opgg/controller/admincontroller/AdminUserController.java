@@ -32,7 +32,6 @@ public class AdminUserController {
 	//유저 검색기능
 	@PostMapping("/search")
 	public @ResponseBody List<User> search(@RequestBody Map<String, String> data) {
-
 		
 		return userRepository.search(data.get("email"));
 	}

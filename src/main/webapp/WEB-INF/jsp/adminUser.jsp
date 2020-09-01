@@ -34,8 +34,8 @@
   <div class="input-group">
     <input  type="text" class="form-control" id ="search" placeholder="이메일을 입력해주세요">
     <div class="input-group-btn">
-      <button class="btn btn-default btn-search" type="button" >
-        <i class="glyphicon glyphicon-search"></i>
+      <button class="btn btn-default btn-search" type="button">
+      	검색
       </button>
     </div>
   </div>
@@ -51,8 +51,8 @@
         <th>권한</th>
       </tr>
     </thead>
+     <tbody id ="tbody">
     <c:forEach var="user" items = "${users}">
-    <tbody>
       <tr>
         <td>${user.username}</td>
         <td>${user.email}</td>
@@ -67,8 +67,8 @@
 	   </td>
         <td><button class="${user.id } btn btn-danger btn-delete">탈퇴</button></td>
       </tr>
-    </tbody>
     </c:forEach>
+    
     
   </table>
 </div>
@@ -77,9 +77,15 @@
 let index = {
 		init : function() {
 			
+			$(".form-control").on("keypress",()=>{
+				if(event.keyCode == 13){
+					this.searchUser();
+					return false;
+				}
+			});
+			
 			$(".btn-search").on("click",()=>{
 				this.searchUser();
-				
 			});
 			
 			//유저 권한
@@ -102,7 +108,7 @@ let index = {
 			 email : $("#search").val()
 			}
 			
-			alert(data.email);
+		//	alert(data.email);
 			
 			$.ajax({
 				
@@ -113,38 +119,32 @@ let index = {
 				dataType : "json"
 				
 			}).done(function(result){
-				$("table").empty();
+				$("#tbody").empty();
 				
 				for(var user of result){
 					
-					var user ="<thead>\r\n" + 
-					"\r\n" + 
-					"      <tr>\r\n" + 
-					"        <th>이름</th>\r\n" + 
-					"        <th>Email</th>\r\n" + 
-					"        <th>생성 날짜</th>\r\n" + 
-					"        <th>권한</th>\r\n" + 
-					"      </tr>\r\n" + 
-					"    </thead>\r\n" + 
-					"    <tbody>\r\n" + 
-					"      <tr>\r\n" + 
+					var user = "  <tr>\r\n" + 
 					"        <td>"+user.username+"</td>\r\n" + 
 					"        <td>"+user.email+"</td>\r\n" + 
 					"        <td>"+user.createDate+"</td>\r\n" + 
 					"        <td><div class=\"form-group\">\r\n" + 
-					" 			 <select class=\""+user.id+" form-control roles\" >\r\n" + 
+					" 			 <select class=\""+user.id+"form-control roles\" >\r\n" + 
 					"			 <option selected disabled hidden>"+user.roles+"</option>\r\n" + 
 					"   			 <option value=\"ROLE_USER\">ROLE_USER</option>\r\n" + 
 					"  			 <option value=\"ROLE_ADMIN\">ROLE_ADMIN</option>\r\n" + 
 					" 			 </select>\r\n" + 
 					"		</div>\r\n" + 
 					"	   </td>\r\n" + 
-					"        <td><button class=\""+user.id+"btn btn-danger btn-delete\">탈퇴</button></td>\r\n" + 
+					"        <td><button class=\""+user.id+ "btn btn-danger btn-delete\">탈퇴</button></td>\r\n" + 
 					"      </tr>\r\n" + 
-					"    </tbody>\r\n";
+					"    "
+					
+					$("#tbody").append(user);
+					
 				}
+			
+			
 				
-				$("table").append(user);
 				console.log(result);
 		
 			}).fail((error)=>{
