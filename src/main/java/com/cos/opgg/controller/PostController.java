@@ -1,5 +1,6 @@
 package com.cos.opgg.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import com.cos.opgg.config.auth.PrincipalDetails;
 import com.cos.opgg.dto.CommunityDto;
 import com.cos.opgg.dto.RespDto;
 import com.cos.opgg.model.Post;
+import com.cos.opgg.repository.PostRepository;
 import com.cos.opgg.service.PostService;
 
 @RestController
@@ -27,6 +29,25 @@ public class PostController {
 	
 	@Autowired
 	private PostService postService;
+	
+	@Autowired
+	private PostRepository postRepository;
+	
+//	// 커뮤니티 글목록 보기
+//	@GetMapping("/test/post")
+//	public List<Post> PostTest() {
+//		List<Post> post = postRepository.findAll();
+//
+//		return post;
+//	}
+
+	// 커뮤니티 글 검색
+	@GetMapping("search/{content}")
+	public List<Post> seach(@PathVariable(name = "content") String content) {
+		List<Post> post = postRepository.findByContent(content);
+		System.out.println(post);
+		return post;
+	}
 	
 	//글 전체보기
 	@GetMapping("{page}")

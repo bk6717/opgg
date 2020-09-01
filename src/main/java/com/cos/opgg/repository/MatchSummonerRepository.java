@@ -9,10 +9,6 @@ import com.cos.opgg.api.model.MatchSummonerModel;
 
 public interface MatchSummonerRepository extends JpaRepository<MatchSummonerModel, Integer>{
 	
-//	MatchSummonerModel save(MatchSummonerModel matchSummonerModel);
-	
-//	List<MatchSummonerModel> findAllByGameIdByOrderByGamecreationDesc(long gameId);
-	
 	List<MatchSummonerModel> findAllByGameIdOrderByParticipantIdAsc(long gameId);
 	
 	List<MatchSummonerModel> findAllByGameIdOrderByParticipantIdDesc(long gameId);

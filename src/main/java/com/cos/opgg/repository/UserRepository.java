@@ -17,12 +17,8 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 	 
 	 @Query(value = "select UserName from user", nativeQuery = true)
 	 User findUserName();
-//	 
-//	 @Query(value = "UPDATE user SET roles = ?1 WHERE id = ?2", nativeQuery = true)
-//	 User updateRole(String roles, int id );
-	 
-	 @Query(value =" select * from user where email like %?1%", nativeQuery = true)
-	 List<User> search(String email);
-	 
 
+	 @Query(value =" select * from user where email like %?1%", nativeQuery = true)
+	 List<User> mFindByEmail(String email);
+	 
 }

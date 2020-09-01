@@ -6,8 +6,6 @@ import com.cos.opgg.api.model.MatchCommonModel;
 
 public interface MatchCommonRepository extends JpaRepository<MatchCommonModel, Integer>{
 	
-//	MatchCommonModel save(MatchCommonModel matchCommonModel);
-	
 	MatchCommonModel findByGameId(long gameId);
 	
 }

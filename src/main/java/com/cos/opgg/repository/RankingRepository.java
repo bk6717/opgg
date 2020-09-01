@@ -8,9 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.cos.opgg.api.model.RankingModel;
 
 public interface RankingRepository extends JpaRepository<RankingModel, Integer>{
-	
-//	RankingModel save(RankingModel rankingModel);
-	
+
 	List<RankingModel> findAll();
 	
 	// 오더바이 앞에 By를 꼭 붙일 것

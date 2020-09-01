@@ -2,9 +2,7 @@ package com.cos.opgg.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -45,4 +43,10 @@ public class ReplyController {
 	public RespDto<?> Delete(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable int id){
 		return replyService.replyDelete(principalDetails, id);
 	}
+	
+//	@GetMapping("/reply")
+//	public List<Reply> find() {
+//		List<Reply> reply = replyRepostory.findAll();
+//		return reply;
+//	}
 }

@@ -12,9 +12,8 @@ public interface ReplyRepository extends JpaRepository<Reply, Integer>{
 	
 	Reply findById(int id);
 	
-	
 	 //게시글 검색기능
 	 @Query(value =" select * from reply where reply like %?1%", nativeQuery = true)
-	 List<Reply> search(String reply);
+	 List<Reply> findByReply(String reply);
 	 
 }

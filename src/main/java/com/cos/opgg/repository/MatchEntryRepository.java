@@ -6,8 +6,6 @@ import com.cos.opgg.api.model.MatchEntryModel;
 
 public interface MatchEntryRepository extends JpaRepository<MatchEntryModel, Integer>{
 	
-//	MatchEntryModel save(MatchEntryModel matchEntryModel);
-	
 	MatchEntryModel findByAccountId(String accountId);
 	
 	MatchEntryModel findByGameId(long gameId);

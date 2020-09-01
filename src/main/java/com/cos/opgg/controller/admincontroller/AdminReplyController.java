@@ -28,7 +28,7 @@ public class AdminReplyController {
 	@PostMapping("/search")
 	public @ResponseBody List<Reply> search(@RequestBody Map<String, String> data) {
 		
-		return replyRepository.search(data.get("reply"));
+		return replyRepository.findByReply(data.get("reply"));
 	}
 	
 	@GetMapping({"","/"})
@@ -42,7 +42,6 @@ public class AdminReplyController {
 	@DeleteMapping("delete/{id}")
 	public @ResponseBody String deleteReply(@PathVariable int id ) {
 		
-		System.out.println("id "+ id );
 		replyRepository.deleteById(id);
 		
 		return "성공";
