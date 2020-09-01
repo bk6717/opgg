@@ -29,7 +29,7 @@ public class AdminPostController {
 	@PostMapping("/search")
 	public @ResponseBody List<Post> search(@RequestBody Map<String, String> data) {
 		
-		return postRepository.search(data.get("title"));
+		return postRepository.findByContent(data.get("title"));
 	}
 	
     //게시글 메인
