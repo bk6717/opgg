@@ -23,7 +23,9 @@
     <li class="nav-item">
       <a class="nav-link" href="/admin/reply">댓글 관리</a>
     </li>
-     
+    <li class="nav-item">
+      <a class="nav-link" href="/admin/logout" style="color: red;">로그아웃</a>
+    </li> 
   </ul>
 </div>
 

@@ -22,6 +22,9 @@
     <li class="nav-item">
       <a class="nav-link active" href="/admin/reply">댓글 관리</a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/admin/logout"style="color: red;">로그아웃</a>
+    </li>
   </ul>
 </div>
 <div class="container">
@@ -132,7 +135,7 @@ let index = {
 			
 			$.ajax({
 				type:"delete",
-				url: "reply/0delete/"+id,
+				url: "reply/delete/"+id,
 				dataType: "text"
 			}).done((resp)=>{
 				alert("삭제성공");

@@ -3,6 +3,10 @@ package com.cos.opgg.controller.admincontroller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +34,17 @@ public class AdminUserController {
 	public String index() {
 		
 		return "redirect:/admin/login";
+	}
+	
+	@GetMapping("/admin/logout")
+	public String logout(HttpServletResponse response) {
+
+	    Cookie jwtCookie = new Cookie("jwtToken", null);
+	    jwtCookie.setMaxAge(0); // 쿠키의 expiration 타임을 0으로 하여 없앤다.
+	    jwtCookie.setPath("/"); // 모든 경로에서 삭제 됬음을 알린다.
+		response.addCookie(jwtCookie);
+		
+		return "loginForm";
 	}
 	
 	@GetMapping("/admin/login")
