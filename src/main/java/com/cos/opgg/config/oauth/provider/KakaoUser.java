@@ -2,6 +2,8 @@ package com.cos.opgg.config.oauth.provider;
 
 import java.util.Map;
 
+// 카카오 로그인 유저
+
 public class KakaoUser implements OAuthUserInfo{
 
 	private Map<String, Object> attribute;

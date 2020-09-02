@@ -14,6 +14,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -42,9 +46,11 @@ public class Post {
 	@Column(name = "id")
 	private int id;
 	
+	@NotBlank
 	@Column(name = "title")
 	private String title;
 	
+	@NotBlank
 	@Column(name = "content")
 	private String content;
 	

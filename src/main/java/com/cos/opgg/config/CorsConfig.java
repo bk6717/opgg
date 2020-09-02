@@ -7,6 +7,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+// cors설정 - 안드로이드 리액트를 사용하기 때문에 모두 풀어준다
+
 @Configuration
 public class CorsConfig {
 

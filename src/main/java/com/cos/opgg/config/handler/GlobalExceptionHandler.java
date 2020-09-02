@@ -1,12 +1,11 @@
 package com.cos.opgg.config.handler;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.cos.opgg.config.handler.exception.MyJoinException;
 import com.cos.opgg.config.handler.exception.MyJwtErrorException;
 import com.cos.opgg.config.handler.exception.MyPostWriteException;
@@ -29,6 +28,11 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(value=MyJwtErrorException.class)
 	public RespDto<String> jwtError(Exception e) {
 		return new RespDto<String>(HttpStatus.BAD_REQUEST.value(), "토큰에 문제가 있습니다. 재발급 요망", null);
+	}
+	
+	@ExceptionHandler(value=UsernameNotFoundException.class)
+	public RespDto<String> detailsService(Exception e) {
+		return new RespDto<String>(HttpStatus.BAD_REQUEST.value(), "해당 유저네임이 없습니다.", null);
 	}
 	
 	

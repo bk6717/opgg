@@ -10,6 +10,8 @@ import com.cos.opgg.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
+// PrincipalDetails를 이용하기 위해 UserDetailsService를 커스텀해준다
+
 @Service
 @RequiredArgsConstructor
 public class PrincipalDetailsService implements UserDetailsService{

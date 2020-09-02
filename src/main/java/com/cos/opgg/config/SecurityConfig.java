@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
-				.formLogin().disable()
+				.formLogin().disable() // 모두 jwt를 이용할 것이기  때문에 사용안함
 				.httpBasic().disable()
 				.addFilter(new JwtAuthenticationFilter(authenticationManager()))
 				.addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))
@@ -77,6 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				// 나머지는 허용
 				.anyRequest().permitAll();
 
+		// access denied가 뜰때 핸들링
 //		http.exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPoint() {
 //			@Override
 //			public void commence(HttpServletRequest request, HttpServletResponse response,

@@ -2,6 +2,8 @@ package com.cos.opgg.config.oauth.provider;
 
 import java.util.Map;
 
+// 일반 로그인 유저
+
 public class CommonUser implements OAuthUserInfo{
 
 	private Map<String, Object> attribute;

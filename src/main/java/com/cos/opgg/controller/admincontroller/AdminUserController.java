@@ -26,12 +26,14 @@ public class AdminUserController {
 	
 	@Autowired AdminUserService adminUserService;
 	
+	// 루트주소 요청시 어드민 로그인페이지로 이동
 	@GetMapping({"","/"})
 	public String index() {
 		
 		return "redirect:/admin/login";
 	}
 	
+	// 어드민 로그인 페이지
 	@GetMapping("/admin/login")
 	public String login() {
 		

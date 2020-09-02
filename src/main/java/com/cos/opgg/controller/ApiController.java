@@ -62,6 +62,7 @@ public class ApiController{
 
 		}
 
+		// api데이터 연습
 		@GetMapping("input/123123123/{name}")
 		public String testInput(@PathVariable String name) {
 

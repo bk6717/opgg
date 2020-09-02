@@ -2,6 +2,8 @@ package com.cos.opgg.config.oauth.provider;
 
 import java.util.Map;
 
+// 구글 로그인 유저
+
 public class GoogleUser implements OAuthUserInfo{
 
 	private Map<String, Object> attribute;

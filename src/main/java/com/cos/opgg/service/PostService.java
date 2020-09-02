@@ -90,6 +90,9 @@ public class PostService {
 	@Transactional(readOnly = true)
 	public RespDto<?> detail(int id) {
 		Post postEntity = postRepository.findById(id);
+		if(postEntity == null) {
+			return new RespDto<CommunityDto>(HttpStatus.BAD_REQUEST.value(), "해당 글이 없습니다.", null);
+		}
 		CommunityDto communityDto = CommunityDto.builder().type(1).post(postEntity).build();
 		return new RespDto<CommunityDto>(HttpStatus.CREATED.value(), "정상", communityDto);
 	}
@@ -98,6 +101,7 @@ public class PostService {
 	@Transactional
 	public RespDto<?> write(PrincipalDetails principalDetails, Post post) {
 
+		// 토큰의 유저를 글쓴이로 설정한다
 		post.setUser(principalDetails.getUser());
 
 		Post postEntity = null;
@@ -107,6 +111,7 @@ public class PostService {
 		} catch (Exception e) {
 			throw new MyPostWriteException();
 		}
+		
 
 		if (postEntity == null) {
 			return new RespDto<String>(HttpStatus.BAD_REQUEST.value(), "에러가 발생하였습니다.", null);
@@ -119,8 +124,14 @@ public class PostService {
 	// 글 수정
 	@Transactional
 	public RespDto<?> updateTitleAndContent(PrincipalDetails principalDetails, Post post) {
-
+		
 		Post postEntity = postRepository.findById(post.getId());
+		
+		if(postEntity == null) {
+			return new RespDto<String>(HttpStatus.BAD_REQUEST.value(), "유저 아이디가 다릅니다.", null);
+		}
+
+		
 		if (postEntity.getUser().getId() == principalDetails.getUser().getId()) {
 			// 유저 아이디를 principalDetails 것을 사용한다
 			post.setUser(principalDetails.getUser());
