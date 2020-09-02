@@ -43,16 +43,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.addFilter(corsConfig.corsFilter()).csrf().disable().sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-
-				.formLogin().disable().httpBasic().disable()
+		http
+				.addFilter(corsConfig.corsFilter())
+				.csrf().disable()
+				.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and()
+				.formLogin().disable()
+				.httpBasic().disable()
 				.addFilter(new JwtAuthenticationFilter(authenticationManager()))
 				.addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))
 				// 인증이 필요한 페이지
 				.authorizeRequests()
 				.antMatchers("/post/writeProc")
-				.authenticated().antMatchers("/post/update")
+				.authenticated().antMatchers("/post/update/**")
 				.authenticated().antMatchers("/post/delete/**")
 				.authenticated().antMatchers("/reply/writeProc")
 				.authenticated().antMatchers("/reply/updateProc")

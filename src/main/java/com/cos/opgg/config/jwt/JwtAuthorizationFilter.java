@@ -79,9 +79,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 					.getClaim("username").asString();
 		} catch (Exception e){
 			System.out.println("토큰에 문제가 있습니다");
-			throw new MyJwtErrorException();
-//			chain.doFilter(request, response);
-//			return;
 		}
 		
 		System.err.println("jwt.JwtAuthorizationFilter.java의 doFilterInternal의 username ="+username);
