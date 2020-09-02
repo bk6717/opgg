@@ -85,6 +85,7 @@ public class ApiService {
 		return apiUtil;
 	}
 
+	// 테스트 api라서 요청횟수가 적기 때문에 싱크로나이즈드로 순차처리
 	public synchronized RespDto<?> getRank(String name) {
 
 		List<RankingDto> rankingDtos = new ArrayList<>();
@@ -119,22 +120,6 @@ public class ApiService {
 			SummonerModel summonerEntity = summonerRepository.findByName(tempName);
 
 			if (summonerEntity == null) {
-//				tempName = (rankingEntity.getSummonerName()).replace(" ", "").toLowerCase();
-//
-//				ApiSummoner apiSummoner = getApiSummoner(tempName, getApikey());
-//				try {
-//					Thread.sleep(211);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//				
-//				if (apiSummoner == null) {
-//					rankingDto = RankingDto.builder().type(1).rankingModel(rankingEntity).build();
-//				} else {
-//					summonerEntity = summonerRepository.findByName(tempName);
-//					rankingDto = RankingDto.builder().type(1).summonerModel(summonerEntity)
-//							.rankingModel(rankingEntity).build();
-//				}
 				
 				rankingDto = RankingDto.builder().type(1).rankingModel(rankingEntity).build();
 				
@@ -186,22 +171,6 @@ public class ApiService {
 			SummonerModel summonerEntity = summonerRepository.findByName(tempName);
 
 			if (summonerEntity == null) {
-//				tempName = (rankingEntity.getSummonerName()).replace(" ", "").toLowerCase();
-//
-//				ApiSummoner apiSummoner = getApiSummoner(tempName, getApikey());
-//				try {
-//					Thread.sleep(211);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//				
-//				if (apiSummoner == null) {
-//					rankingDto = RankingDto.builder().type(1).rankingModel(rankingEntity).build();
-//				} else {
-//					summonerEntity = summonerRepository.findByName(tempName);
-//					rankingDto = RankingDto.builder().type(1).summonerModel(summonerEntity)
-//							.rankingModel(rankingEntity).build();
-//				}
 				
 				rankingDto = RankingDto.builder().type(1).rankingModel(rankingEntity).build();
 				

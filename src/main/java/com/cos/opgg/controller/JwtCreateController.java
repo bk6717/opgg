@@ -27,6 +27,8 @@ import com.cos.opgg.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
+// jwt로 로그인 하기위한 컨트롤러
+
 @RestController
 @RequiredArgsConstructor
 public class JwtCreateController {
@@ -39,10 +41,17 @@ public class JwtCreateController {
 	public RespDto<?> commonlogin(@RequestBody Map<String, Object> data, HttpServletResponse response) {
 		System.out.println("controller.JwtCreateController.java의 jwtCreate에 왔습니다 ");
 		System.out.println("여긴 데이터 data = "+data);
-		if(data.get("email") == null || data.get("password") == null) {
+		if(data.get("email") == null || data.get("email").equals("") || data.get("password") == null || data.get("password").equals("")) {
 			System.out.println("값이 입력되지 않음");
 			return new RespDto<TokenDto>(HttpStatus.BAD_REQUEST.value(), "email이나 password필드가 없습니다.", null);
+		} else if(
+				//정규표현식 http://emailregex.com/
+			!((String)data.get("email")).matches("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])")
+			) {
+			return new RespDto<TokenDto>(HttpStatus.BAD_REQUEST.value(), "email이 형식에 맞지 않습니다.", null);
 		}
+		
+		
 		CommonUser commonUser =
 				new CommonUser((Map<String, Object>)data);
 		System.out.println("googleUser.getProvider() = "+commonUser.getProvider());
@@ -52,7 +61,7 @@ public class JwtCreateController {
 		System.out.println("controller.JwtCreateController.java의 jwtCreate의 userEntity = "+userEntity);
 		if(userEntity == null) {
 
-			System.out.println("아이디가 없습니다, 회원가입으로 이동");
+			System.out.println("아이디가 없습니다, 회원가입으로 이동요망");
 			return new RespDto<TokenDto>(HttpStatus.UNAUTHORIZED.value(), "해당 아이디가 없습니다.", null);
 
 		}
@@ -100,6 +109,16 @@ public class JwtCreateController {
 		
 		if (data.get("kakaoId") == null && data.get("googleId") == null) {
 			return new RespDto<Map>(HttpStatus.BAD_REQUEST.value(), "에러가 발생하였습니다.", data);
+		}
+		
+		if(data.get("email") == null || data.get("email").equals("") || data.get("name") == null || data.get("name").equals("")) {
+			System.out.println("값이 입력되지 않음");
+			return new RespDto<Map>(HttpStatus.BAD_REQUEST.value(), "email이나 name필드가 없습니다.", null);
+		} else if(
+				//정규표현식 http://emailregex.com/
+			!((String)data.get("email")).matches("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])")
+			) {
+			return new RespDto<Map>(HttpStatus.BAD_REQUEST.value(), "email이 형식에 맞지 않습니다.", null);
 		}
 		
 		System.out.println("controller.JwtCreateController.java의 jwtCreate에 왔습니다 ");

@@ -90,6 +90,7 @@ public class ReplyService {
 		String postId = String.valueOf(replyEntity.getPost().getId());
 		
 		replyRepository.deleteById(id);
+		System.out.println("삭제됨");
 		
 		return new  RespDto<String>(HttpStatus.OK.value(), "정상" , postId);
 	}

@@ -22,6 +22,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 
+// jwt 생성을 컨트롤러에서 하기 때문에 사용하지 않음
+
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter{
 

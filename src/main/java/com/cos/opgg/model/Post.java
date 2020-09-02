@@ -14,6 +14,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -42,9 +46,11 @@ public class Post {
 	@Column(name = "id")
 	private int id;
 	
+	@NotBlank
 	@Column(name = "title")
 	private String title;
 	
+	@NotBlank
 	@Column(name = "content")
 	private String content;
 	
@@ -61,7 +67,7 @@ public class Post {
 	@JsonIgnoreProperties({"password"})
 	private User user;
 	
-	@OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties({"post"}) // replies안의 post안가져오기
 	@OrderBy("createDate DESC") // 댓글 최신글부터 가져오기
 	private List<Reply> replies;

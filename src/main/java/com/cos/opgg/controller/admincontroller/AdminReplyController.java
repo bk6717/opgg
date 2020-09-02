@@ -31,6 +31,7 @@ public class AdminReplyController {
 		return replyRepository.findByReply(data.get("reply"));
 	}
 	
+	// 댓글 모두 가져오기
 	@GetMapping({"","/"})
 	public String reply(Model model) {
 		
@@ -39,6 +40,7 @@ public class AdminReplyController {
 		return "adminReply";
 	}
 	
+	// 댓글 지우기
 	@DeleteMapping("delete/{id}")
 	public @ResponseBody String deleteReply(@PathVariable int id ) {
 		

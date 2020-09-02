@@ -58,7 +58,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 			// 쿠키에서도 없을 경우 필터를 끝낸다
 			if(token == null) {
 				System.err.println("jwt.JwtAuthorizationFilter.java의 doFilterInternal의 header == null에 도착 ");
-				System.err.println("---------------------終わりました---------------------------");
+				System.err.println("---------------------헤더와 쿠키에 토큰이 없습니다.---------------------------");
 				chain.doFilter(request, response);
 				return;
 			}
@@ -79,9 +79,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 					.getClaim("username").asString();
 		} catch (Exception e){
 			System.out.println("토큰에 문제가 있습니다");
-			throw new MyJwtErrorException();
-//			chain.doFilter(request, response);
-//			return;
 		}
 		
 		System.err.println("jwt.JwtAuthorizationFilter.java의 doFilterInternal의 username ="+username);

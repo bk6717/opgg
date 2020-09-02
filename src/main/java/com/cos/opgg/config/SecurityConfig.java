@@ -43,16 +43,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.addFilter(corsConfig.corsFilter()).csrf().disable().sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-
-				.formLogin().disable().httpBasic().disable()
+		http
+				.addFilter(corsConfig.corsFilter())
+				.csrf().disable()
+				.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and()
+				.formLogin().disable() // 모두 jwt를 이용할 것이기  때문에 사용안함
+				.httpBasic().disable()
 				.addFilter(new JwtAuthenticationFilter(authenticationManager()))
 				.addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))
 				// 인증이 필요한 페이지
 				.authorizeRequests()
 				.antMatchers("/post/writeProc")
-				.authenticated().antMatchers("/post/update")
+				.authenticated().antMatchers("/post/update/**")
 				.authenticated().antMatchers("/post/delete/**")
 				.authenticated().antMatchers("/reply/writeProc")
 				.authenticated().antMatchers("/reply/updateProc")
@@ -73,6 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				// 나머지는 허용
 				.anyRequest().permitAll();
 
+		// access denied가 뜰때 핸들링
 //		http.exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPoint() {
 //			@Override
 //			public void commence(HttpServletRequest request, HttpServletResponse response,

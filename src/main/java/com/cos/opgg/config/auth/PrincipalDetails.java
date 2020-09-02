@@ -11,6 +11,9 @@ import com.cos.opgg.model.User;
 
 import lombok.ToString;
 
+// UserDetails를 구현
+// 편리하게 사용하기 위해서 User객체를 입력한다
+
 @ToString
 public class PrincipalDetails implements UserDetails{
 

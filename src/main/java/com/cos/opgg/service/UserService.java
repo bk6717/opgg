@@ -24,7 +24,12 @@ public class UserService {
 	@Transactional
 	public RespDto<?> join(Map<String, Object> data) {
 		
-		if(data.get("nickname") == null || data.get("password") == null || data.get("email") == null) {
+		if(data.get("nickname") == null || 
+				data.get("nickname").equals("") ||
+				data.get("password") == null || 
+				data.get("password").equals("") || 
+				data.get("email") == null || 
+				data.get("email").equals("")) {
 			System.out.println("값이 입력되지 않음");
 			return new RespDto<String>(HttpStatus.BAD_REQUEST.value(), "nickname이나 email이나 password필드가 없습니다.", null);
 		}
