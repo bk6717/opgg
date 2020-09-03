@@ -105,6 +105,9 @@ public class JwtCreateController {
 	// 구글 카카오
 	@PostMapping("jwt/oauth")
 	public RespDto<?> jwtCreate(@RequestBody Map<String, Object> data) {
+		
+		// accessToken으로 검증(생략)
+		
 		System.out.println(data);
 		
 		if (data.get("kakaoId") == null && data.get("googleId") == null) {
