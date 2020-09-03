@@ -33,9 +33,11 @@ use opgg;
 
 
 
+## DB 커뮤니티 구조도 
 
 
-![community] (https://postfiles.pstatic.net/MjAyMDA5MDNfNDAg/MDAxNTk5MTEzMjIzNTUw.KudKERSgfmMACiKDN6k6ra5RydIDmgPFxaujTn9p5kEg.y49HgeC1AgXqUgJ4Hpqq3Ct4rX8hu0gzL-81blMmOdQg.PNG.bk6717/image.png?type=w773)
+
+![community](https://postfiles.pstatic.net/MjAyMDA5MDNfNDAg/MDAxNTk5MTEzMjIzNTUw.KudKERSgfmMACiKDN6k6ra5RydIDmgPFxaujTn9p5kEg.y49HgeC1AgXqUgJ4Hpqq3Ct4rX8hu0gzL-81blMmOdQg.PNG.bk6717/image.png?type=w773)
 
 
 
