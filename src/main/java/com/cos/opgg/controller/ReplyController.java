@@ -1,7 +1,10 @@
 package com.cos.opgg.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,13 +30,13 @@ public class ReplyController {
 	
 	//댓글 입력
 	@PostMapping("writeProc")
-	public RespDto<?> save(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody Reply reply){		
+	public RespDto<?> save(@AuthenticationPrincipal PrincipalDetails principalDetails, @Valid @RequestBody Reply reply, BindingResult bindingResult){		
 		return replyService.replySave(principalDetails, reply);
 	}
 	
 	//댓글 수정
 	@PutMapping("updateProc")
-	public RespDto<?> update(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody Reply reply){
+	public RespDto<?> update(@AuthenticationPrincipal PrincipalDetails principalDetails, @Valid @RequestBody Reply reply, BindingResult bindingResult){
 		return replyService.replyUpdate(principalDetails, reply);
 	}
 	

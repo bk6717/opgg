@@ -76,20 +76,16 @@ public class PostController {
 	
 	//글 쓰기
 	@PostMapping("writeProc")
-	public ResponseEntity<RespDto<String>> writeProc(@AuthenticationPrincipal PrincipalDetails principalDetails, @Valid @RequestBody Post post , BindingResult bindingResult){
+	public RespDto<?> writeProc(@AuthenticationPrincipal PrincipalDetails principalDetails, @Valid @RequestBody Post post , BindingResult bindingResult){
 		
-		RespDto respDto = postService.write(principalDetails, post);
-		
-		 return new ResponseEntity<RespDto<String>>(respDto,HttpStatus.OK);
+		 return postService.write(principalDetails, post);
 	}
 	
 	//글 수정
 	@PutMapping("update")
-	public ResponseEntity<RespDto<String>> updateTitleAndContent(@AuthenticationPrincipal PrincipalDetails principalDetails, @Valid @RequestBody Post post, BindingResult bindingResult){
+	public RespDto<?> updateTitleAndContent(@AuthenticationPrincipal PrincipalDetails principalDetails, @Valid @RequestBody Post post, BindingResult bindingResult){
 		
-		RespDto respDto = postService.updateTitleAndContent(principalDetails, post);
-		
-		return new ResponseEntity<RespDto<String>>(respDto,HttpStatus.OK);
+		return postService.updateTitleAndContent(principalDetails, post);
 	}
 	
 	//글삭제//////////////////////나중에 바꿔야함
