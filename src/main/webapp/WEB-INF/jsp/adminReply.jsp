@@ -135,7 +135,7 @@ let index = {
 			
 			$.ajax({
 				type:"delete",
-				url: "reply/delete/"+id,
+				url: "/admin/reply/delete/"+id,
 				dataType: "text"
 			}).done((resp)=>{
 				alert("삭제성공");

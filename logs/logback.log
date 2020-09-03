@@ -1,0 +1,2 @@
+[2020-09-03 12:47:13:2082536][http-nio-8080-exec-3] ERROR com.cos.opgg.aop.BindingAdvice - 에러
+[2020-09-03 12:47:13:2082537][http-nio-8080-exec-3] WARN  com.cos.opgg.aop.BindingAdvice - com.cos.opgg.controller.PostControllerwriteProc공백일 수 없습니다

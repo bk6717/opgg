@@ -108,6 +108,8 @@ let index = {
 				dataType : "json"
 				
 			}).done(function(result){
+				
+				
 				$("#tbody").empty();
 				
 				for(var post of result){
@@ -118,7 +120,7 @@ let index = {
 					"        <td>"+post.content+"</td>\r\n" + 
 					"        <td>"+post.user.username+"</td>\r\n" + 
 					"        <td>"+post.createDate+"</td>\r\n" + 
-					"        <td><button class=\""+post.id+"btn btn-danger btn-delete\">삭제</button></td>\r\n" + 
+					"        <td><button class=\""+post.id+" btn btn-danger btn-delete\">삭제</button></td>\r\n" + 
 					"      </tr>\r\n" + 
 					"   ";
 					
@@ -141,7 +143,7 @@ let index = {
 			
 			$.ajax({
 				type:"delete",
-				url: "/post/delete/"+id,
+				url: "/admin/post/delete/"+id,
 				dataType: "text"
 			}).done((resp)=>{
 				alert("삭제성공");
@@ -153,6 +155,7 @@ let index = {
 		}
 		
 }
+
 index.init();
 </script>
 

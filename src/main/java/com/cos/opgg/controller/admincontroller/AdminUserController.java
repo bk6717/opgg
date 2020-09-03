@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cos.opgg.model.User;
+import com.cos.opgg.repository.PostRepository;
+import com.cos.opgg.repository.ReplyRepository;
 import com.cos.opgg.repository.UserRepository;
 import com.cos.opgg.service.AdminUserService;
 
@@ -27,6 +29,12 @@ public class AdminUserController {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private PostRepository postRepository;
+	
+	@Autowired
+	private ReplyRepository replyRepository;
 	
 	@Autowired AdminUserService adminUserService;
 	
@@ -86,7 +94,7 @@ public class AdminUserController {
 	@DeleteMapping("/admin/user/delete/{id}")
 	public @ResponseBody String deleteUser(@PathVariable int id ) {
 		
-		userRepository.deleteById(id);
+		adminUserService.deleteUser(id);
 		
 		return "성공";
 	}

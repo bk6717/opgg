@@ -9,6 +9,8 @@ import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -23,6 +25,10 @@ import com.cos.opgg.dto.RespDto;
 @Aspect  //Aop로 등록이된다. 
 public class BindingAdvice {
 
+	
+	private static final Logger log = LoggerFactory.getLogger(BindingAdvice.class);
+
+	
 	//@Before, @After, @Around 
 	// Around는 함수의 매개변수를 이용할 수 있다
 	@Around("execution(* com.cos.opgg..*Controller.*(..))")
@@ -48,6 +54,12 @@ public class BindingAdvice {
 					Map<String, String> errorMap = new HashMap<>();
 					
 					for (FieldError error : bindingResult.getFieldErrors()) {
+						//log
+						log.debug("디버그");
+						log.info("인포");
+						log.error("에러");
+						log.warn(type + method + error.getDefaultMessage());
+
 						errorMap.put(error.getField(), error.getDefaultMessage());
 					}
 					

@@ -165,7 +165,7 @@ let index = {
 			
 			$.ajax({
 				type:"put",
-				url: "user/updateRole/"+event.target.className.split(" ")[0],
+				url: "/admin/user/updateRole/"+event.target.className.split(" ")[0],
 				contentType : "application/json; charset=utf-8",
 				data: JSON.stringify(data),
 				dataType: "text"
@@ -185,7 +185,7 @@ let index = {
 			
 			$.ajax({
 				type:"delete",
-				url: "user/delete/"+id,
+				url: "/admin/user/delete/"+id,
 				dataType: "text"
 			}).done((resp)=>{
 				alert("삭제에 성공하셧습니다.");

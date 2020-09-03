@@ -52,4 +52,5 @@ public class ReplyController {
 //		List<Reply> reply = replyRepostory.findAll();
 //		return reply;
 //	}
+	
 }
