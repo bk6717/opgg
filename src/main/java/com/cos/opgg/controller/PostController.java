@@ -54,6 +54,9 @@ public class PostController {
 	//글 전체보기
 	@GetMapping("{page}")
 	public RespDto<?> findAll(@PathVariable  int page){
+		if(page < 0) {
+			page = 0;
+		}
 		
 		return postService.findAll(page);
 	}
