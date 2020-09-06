@@ -887,7 +887,7 @@ public class ApiService {
 				for (Team team : apiMatch.getTeams()) {
 
 					MatchTeamModel matchTeamModel = MatchTeamModel.builder().baronKills(team.getBaronKills())
-							.dragonkills(team.getDragonKills()).gameId(apiMatch.getGameId()).teamId(team.getTeamId())
+							.dragonKills(team.getDragonKills()).gameId(apiMatch.getGameId()).teamId(team.getTeamId())
 							.towerKills(team.getTowerKills()).win(team.getWin()).build();
 
 					matchTeamRepository.save(matchTeamModel);
@@ -899,7 +899,7 @@ public class ApiService {
 				for (Team team : apiMatch.getTeams()) {
 
 					MatchTeamModel matchTeamModel = MatchTeamModel.builder().baronKills(team.getBaronKills())
-							.dragonkills(team.getDragonKills()).gameId(apiMatch.getGameId()).teamId(team.getTeamId())
+							.dragonKills(team.getDragonKills()).gameId(apiMatch.getGameId()).teamId(team.getTeamId())
 							.towerKills(team.getTowerKills()).win(team.getWin()).build();
 
 					matchTeamRepository.save(matchTeamModel);
