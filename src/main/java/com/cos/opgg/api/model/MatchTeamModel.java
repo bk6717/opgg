@@ -36,6 +36,6 @@ public class MatchTeamModel {
 	@Column(name = "baronKills")
     private long baronKills;
 	
-	@Column(name = "dragonkils")
-    private long dragonkils;
+	@Column(name = "dragonkills")
+    private long dragonkills;
 }
