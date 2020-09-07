@@ -46,8 +46,11 @@ public class ApiController{
 		// infoDto 가져오기
 		@GetMapping("info/name/{name}")
 		public RespDto<?> getInfoByName(@PathVariable String name) {
-
-			return apiService.getInfo(name);
+			System.out.println("날아옴```````````````````````````````````````````````````````````");
+			System.out.println(name);
+			RespDto resp = apiService.getInfo(name);
+			System.out.println("resp : "+resp);
+			return resp;
 		}
 
 		// 전적갱신하기

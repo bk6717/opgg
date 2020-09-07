@@ -98,7 +98,7 @@ public class JwtCreateController {
 			
 		}
 				
-		return new RespDto<TokenDto>(HttpStatus.OK.value(), "정상", tokenDto);
+		return new RespDto<TokenDto>(HttpStatus.OK.value(), "로그인에 성공하였습니다.", tokenDto);
 	}
 	
 
@@ -176,7 +176,7 @@ public class JwtCreateController {
 				.build();
 				
 		
-		return new RespDto<TokenDto>(HttpStatus.OK.value(), "정상", tokenDto);
+		return new RespDto<TokenDto>(HttpStatus.OK.value(), "로그인에 성공하였습니다.", tokenDto);
 	}
 
 }
