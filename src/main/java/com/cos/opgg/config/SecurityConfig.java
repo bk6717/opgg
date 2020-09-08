@@ -52,16 +52,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.formLogin().disable() // 모두 jwt를 이용할 것이기  때문에 사용안함
 				.httpBasic().disable()
 				.addFilter(new JwtAuthenticationFilter(authenticationManager()))
-				.addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))
+				
+				.addFilter(new JwtAuthorizationFilter(
+						authenticationManager(), userRepository))
+				
 				// 인증이 필요한 페이지
 				.authorizeRequests()
-				.antMatchers("/post/writeProc")
-				.authenticated().antMatchers("/post/update/**")
-				.authenticated().antMatchers("/post/delete/**")
-				.authenticated().antMatchers("/reply/writeProc")
-				.authenticated().antMatchers("/reply/updateProc")
-				.authenticated().antMatchers("/reply/delete/**")
-				.authenticated()
+				.antMatchers("/post/writeProc").authenticated()
+				.antMatchers("/post/update/**").authenticated()
+				.antMatchers("/post/delete/**").authenticated()
+				.antMatchers("/reply/writeProc").authenticated()
+				.antMatchers("/reply/updateProc").authenticated()
+				.antMatchers("/reply/delete/**").authenticated()
 				// 인가가 필요한 페이지
 				// 관리자는 쿠키로 jwt를 전송하여 인가
 				.antMatchers("/user/**")

@@ -128,8 +128,7 @@ let index = {
 					
 				}
 			
-			
-				
+				index.init();
 				console.log(result);
 		
 			}).fail((error)=>{

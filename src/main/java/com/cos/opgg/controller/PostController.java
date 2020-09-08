@@ -79,7 +79,8 @@ public class PostController {
 	
 	//글 쓰기
 	@PostMapping("writeProc")
-	public RespDto<?> writeProc(@AuthenticationPrincipal PrincipalDetails principalDetails, @Valid @RequestBody Post post , BindingResult bindingResult){
+	public RespDto<?> writeProc(@AuthenticationPrincipal PrincipalDetails principalDetails, 
+			@Valid @RequestBody Post post , BindingResult bindingResult){
 		
 		 return postService.write(principalDetails, post);
 	}

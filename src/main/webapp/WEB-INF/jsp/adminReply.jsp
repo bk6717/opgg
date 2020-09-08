@@ -121,7 +121,7 @@ let index = {
 					$("#tbody").append(reply);
 					
 				}
-				
+				index.init();
 				console.log(result);
 		
 			}).fail((error)=>{

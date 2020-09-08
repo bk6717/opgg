@@ -86,6 +86,8 @@ public class ApiService {
 	}
 
 	// 테스트 api라서 요청횟수가 적기 때문에 싱크로나이즈드로 순차처리
+	
+	// 이름으로 랭크검색
 	public synchronized RespDto<?> getRank(String name) {
 
 		List<RankingDto> rankingDtos = new ArrayList<>();
@@ -137,6 +139,7 @@ public class ApiService {
 		return new RespDto<List<RankingDto>>(HttpStatus.RESET_CONTENT.value(), "정상", rankingDtos);
 	}
 
+	// 상위부터 랭크 페이징
 	public synchronized RespDto<?> getRank(long page) {
 
 		List<RankingDto> rankingDtos = new ArrayList<>();
@@ -189,6 +192,7 @@ public class ApiService {
 		return new RespDto<List<RankingDto>>(HttpStatus.OK.value(), "정상", rankingDtos);
 	}
 
+	// 경기 상세정보 가져오기
 	public synchronized RespDto<?> getDetail(long gameId) {
 
 		MatchCommonModel matchCommonEntity = matchCommonRepository.findByGameId(gameId);
@@ -240,6 +244,7 @@ public class ApiService {
 		return new RespDto<DetailDto>(HttpStatus.OK.value(), "정상", detailDto);
 	}
 
+	// 유저 전적 가져오기
 	public synchronized RespDto<?> getInfo(String name) {
 
 		List<InfoDto> infoDtos = new ArrayList<>();

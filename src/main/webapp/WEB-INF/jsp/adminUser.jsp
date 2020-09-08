@@ -137,7 +137,7 @@ let index = {
 					" 			 </select>\r\n" + 
 					"		</div>\r\n" + 
 					"	   </td>\r\n" + 
-					"        <td><button class=\""+user.id+ "btn btn-danger btn-delete\">탈퇴</button></td>\r\n" + 
+					"        <td><button class=\""+user.id+ " btn btn-danger btn-delete\">탈퇴</button></td>\r\n" + 
 					"      </tr>\r\n" + 
 					"    "
 					
@@ -145,8 +145,7 @@ let index = {
 					
 				}
 			
-			
-				
+				index.init();
 				console.log(result);
 		
 			}).fail((error)=>{
@@ -173,7 +172,7 @@ let index = {
 				alert("변경하였습니다.");
 				location.href = "/admin/user";
 			}).fail((error)=>{
-				alert("변경에 실패하셧습니다");
+				alert("변경에 실패하셨습니다");
 				console.log(error);
 			});
 		},
@@ -188,7 +187,7 @@ let index = {
 				url: "/admin/user/delete/"+id,
 				dataType: "text"
 			}).done((resp)=>{
-				alert("삭제에 성공하셧습니다.");
+				alert("삭제에 성공하셨습니다.");
 				location.href = "/admin/user";
 			}).fail((error)=>{
 				alert("삭제실패");

@@ -35,7 +35,7 @@ public class AdminReplyController {
 	@GetMapping({"","/"})
 	public String reply(Model model) {
 		
-		model.addAttribute("replies", replyRepository.findAll());
+		model.addAttribute("replies", replyRepository.findAllByOrderByIdDesc());
 				
 		return "adminReply";
 	}

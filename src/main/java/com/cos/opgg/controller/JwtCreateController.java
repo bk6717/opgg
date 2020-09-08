@@ -39,6 +39,7 @@ public class JwtCreateController {
 	// 일반로그인
 	@PostMapping("jwt/common")
 	public RespDto<?> commonlogin(@RequestBody Map<String, Object> data, HttpServletResponse response) {
+		
 		System.out.println("controller.JwtCreateController.java의 jwtCreate에 왔습니다 ");
 		System.out.println("여긴 데이터 data = "+data);
 		if(data.get("email") == null || data.get("email").equals("") || data.get("password") == null || data.get("password").equals("")) {

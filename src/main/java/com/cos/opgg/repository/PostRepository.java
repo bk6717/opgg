@@ -12,6 +12,9 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 
 	Post findById(int id);
 	
+	// OrderBy앞에 By 붙여주는 경우 있음
+	List<Post> findAllByOrderByIdDesc();
+	
 	void deleteByUserId(int id);
 
 	@Query(value = "SELECT * FROM post WHERE title LIKE %?1% OR content LIKE %?1% ORDER BY createDate DESC" , nativeQuery = true)

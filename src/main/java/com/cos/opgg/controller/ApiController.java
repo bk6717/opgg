@@ -56,6 +56,8 @@ public class ApiController{
 		// 전적갱신하기
 		@PostMapping("info/update/name/{name}")
 		public RespDto<?> updateInfoByName(@PathVariable String name) {
+			
+			System.out.println(name);
 
 			boolean isGetData = apiService.getApiData(name);
 
@@ -67,16 +69,16 @@ public class ApiController{
 
 		}
 
-		// api데이터 연습
-		@GetMapping("input/123123123/{name}")
-		public String testInput(@PathVariable String name) {
-
-			boolean b = apiService.getApiData(name);
-
-			if (b) {
-				return "입력성공";
-			} else {
-				return "입력실패";
-			}
-		}
+//		// api데이터 연습
+//		@GetMapping("input/123123123/{name}")
+//		public String testInput(@PathVariable String name) {
+//
+//			boolean b = apiService.getApiData(name);
+//
+//			if (b) {
+//				return "입력성공";
+//			} else {
+//				return "입력실패";
+//			}
+//		}
 }

@@ -37,7 +37,7 @@ public class AdminPostController {
 	@GetMapping({"","/"})
 	public String post(Model model) {
 		
-		model.addAttribute("posts", postRepository.findAll());
+		model.addAttribute("posts", postRepository.findAllByOrderByIdDesc());
 		
 		return "adminPost";
 	}

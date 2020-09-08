@@ -12,6 +12,8 @@ public interface ReplyRepository extends JpaRepository<Reply, Integer>{
 	
 	 Reply findById(int id);
 	 
+	 List<Reply> findAllByOrderByIdDesc();
+	 
 	 void deleteByUserId(int id);
 	
 	 //게시글 검색기능

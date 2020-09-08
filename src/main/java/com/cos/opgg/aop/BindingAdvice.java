@@ -55,9 +55,6 @@ public class BindingAdvice {
 					
 					for (FieldError error : bindingResult.getFieldErrors()) {
 						//log
-						log.debug("디버그");
-						log.info("인포");
-						log.error("에러");
 						log.warn(type + method + error.getDefaultMessage());
 
 						errorMap.put(error.getField(), error.getDefaultMessage());

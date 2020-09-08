@@ -77,3 +77,4 @@ public class Post {
 	private Timestamp createDate;
 	
 }
+

@@ -14,7 +14,7 @@ public class CorsConfig {
 
    @Bean
    public CorsFilter corsFilter() {
-	   System.out.println("oauth.provider.corsFilter.java에 왔습니다");
+	  System.out.println("oauth.provider.corsFilter.java에 왔습니다");
       UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
       CorsConfiguration config = new CorsConfiguration();
       config.setAllowCredentials(true);
@@ -23,8 +23,11 @@ public class CorsConfig {
       config.addAllowedMethod("*"); // Access-Control-Request-Method
 
       source.registerCorsConfiguration("/**", config);
-	   System.out.println("oauth.provider.corsFilter.java 끝!");
+	  System.out.println("oauth.provider.corsFilter.java 끝!");
       return new CorsFilter(source);
    }
 
 }
+
+
+

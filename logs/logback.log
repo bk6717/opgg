@@ -1,2 +1,4 @@
-[2020-09-06 01:02:20:21987268][http-nio-8080-exec-2] ERROR com.cos.opgg.aop.BindingAdvice - 에러
-[2020-09-06 01:02:21:21987271][http-nio-8080-exec-2] WARN  com.cos.opgg.aop.BindingAdvice - com.cos.opgg.controller.ReplyControllersave공백일 수 없습니다
+[2020-09-07 20:23:21:1628584][http-nio-8080-exec-2] ERROR com.cos.opgg.aop.BindingAdvice - 에러
+[2020-09-07 20:23:21:1628588][http-nio-8080-exec-2] WARN  com.cos.opgg.aop.BindingAdvice - com.cos.opgg.controller.ReplyControllersave공백일 수 없습니다
+[2020-09-07 20:23:21:1628726][http-nio-8080-exec-4] ERROR com.cos.opgg.aop.BindingAdvice - 에러
+[2020-09-07 20:23:21:1628726][http-nio-8080-exec-4] WARN  com.cos.opgg.aop.BindingAdvice - com.cos.opgg.controller.ReplyControllersave공백일 수 없습니다
