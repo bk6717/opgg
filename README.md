@@ -19,9 +19,10 @@
 
 
 ## 프레젠테이션
+https://docs.google.com/presentation/d/1CDGR5XWxe7j4afxRBsul-vG5oblBLByOJI-SKFED9YE/edit?usp=sharing
 
-
-
+## 관리자 페이지 영상
+https://youtu.be/idEkVdJDVrU
 
 
 ## DB 생성
