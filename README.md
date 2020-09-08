@@ -19,9 +19,10 @@
 
 
 ## 프레젠테이션
+https://docs.google.com/presentation/d/1CDGR5XWxe7j4afxRBsul-vG5oblBLByOJI-SKFED9YE/edit?usp=sharing
 
-
-
+## 관리자 페이지 영상
+https://youtu.be/idEkVdJDVrU
 
 
 ## DB 생성
@@ -37,7 +38,5 @@ use opgg;
 
 
 
-![community](https://postfiles.pstatic.net/MjAyMDA5MDNfNDAg/MDAxNTk5MTEzMjIzNTUw.KudKERSgfmMACiKDN6k6ra5RydIDmgPFxaujTn9p5kEg.y49HgeC1AgXqUgJ4Hpqq3Ct4rX8hu0gzL-81blMmOdQg.PNG.bk6717/image.png?type=w773)
-
-
+![community](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fdyc1sX%2FbtqH7ceqFiD%2FpK5KSmFJDR2PH71Ai0Dpkk%2Fimg.png)
 
