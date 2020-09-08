@@ -1,4 +1,4 @@
-# opgg clone project
+# opgg clone Spring Boot Server
 
 ##  기능
 
